@@ -51,10 +51,10 @@ public class DbMock {
         List<User> list = new ArrayList<>();
         list.add(new User(1,
                 "Pepe",
-                new ArrayList<>()));
+                new ArrayList<>(List.of(this.listOfSellers.get(0)))));
 
         list.add(new User(2,
-                "Juan",
+                "Carlos",
                 new ArrayList<>(List.of(this.listOfSellers.get(0),
                         this.listOfSellers.get(1)
                 ))));
@@ -73,7 +73,7 @@ public class DbMock {
         list.add(new Seller(
                 101,
                 "Robert",
-                new ArrayList<>(List.of(list.get(0))), //Sellers
+                new ArrayList<>(), //Sellers
                 new ArrayList<>(), //Users
                 new ArrayList<>(List.of(this.listOfPost.get(1),this.listOfPost.get(3), this.listOfPost.get(4)))
         ));
@@ -82,8 +82,7 @@ public class DbMock {
 
     private void addFollowersToVendors(){
         this.listOfSellers.get(0).getFollowers().add(this.listOfUsers.get(0));
-        this.listOfSellers.get(0).getFollowers().add(this.listOfUsers.get(1));
-
+        this.listOfSellers.get(0).getFollowers().add(this.listOfUsers.get(1)); // Juan tiene de seguidor a Carlos
         this.listOfSellers.get(1).getFollowers().add(this.listOfUsers.get(0));
     }
 
