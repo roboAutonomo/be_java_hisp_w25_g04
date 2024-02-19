@@ -17,12 +17,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
     @Autowired
     IUserService userService;
+
+
+    @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<?> unfollowUser(@PathVariable("userId") String userId,
+                                          @PathVariable("userIdToUnfollow") String userIdToUnfollow) {
+        return new ResponseEntity<>(userService.unfollowUser(userId, userIdToUnfollow), HttpStatus.OK);
+    }
   
    @Autowired
    ISellerService sellerService;
@@ -67,6 +75,5 @@ public class UserController {
         return new ResponseEntity<>( sellerService.findAllPosts(), HttpStatus.OK);
     }
       
-
 
 }
