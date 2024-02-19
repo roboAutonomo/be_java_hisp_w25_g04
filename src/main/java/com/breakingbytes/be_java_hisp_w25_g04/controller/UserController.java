@@ -27,7 +27,8 @@ public class UserController {
     public ResponseEntity<?> unfollowUser(@PathVariable("userId") String userId,
                                           @PathVariable("userIdToUnfollow") String userIdToUnfollow) {
         sellerService.quitFollower(userIdToUnfollow, userId);
-        return new ResponseEntity<>(userService.unfollowUser(userId, userIdToUnfollow), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .body(userService.unfollowUser(userId, userIdToUnfollow));
     }
 
     @GetMapping("/products/followed/{userId}/list")
@@ -46,17 +47,20 @@ public class UserController {
 
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountFollowers(@PathVariable int userId){
-        return new ResponseEntity<>( userService.getCountFollowersOfSeller(userId), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .body(userService.getCountFollowersOfSeller(userId));
     }
 
     @GetMapping("/users/{userId}/followers/list")
     public ResponseEntity<?> getUsersFollowersOf(@PathVariable int userId, @RequestParam(required = false, defaultValue = "") String order){
-        return new ResponseEntity<>( userService.getUsersFollowersOf(userId, order), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .body(userService.getUsersFollowersOf(userId, order));
     }
 
     @GetMapping("/users/{userId}/followed/list")
     public ResponseEntity<?> getUsersFollowed(@PathVariable int userId, @RequestParam(required = false, defaultValue = "") String order){
-        return new ResponseEntity<>( userService.getUsersFollowed(userId, order), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .body(userService.getUsersFollowed(userId, order));
     }
 
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
@@ -67,7 +71,8 @@ public class UserController {
 
     @GetMapping("/posts")
     public ResponseEntity<?> getAllPosts(){
-        return new ResponseEntity<>( sellerService.findAllPosts(), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .body(sellerService.findAllPosts());
     }
       
 
