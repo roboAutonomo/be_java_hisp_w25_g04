@@ -1,14 +1,12 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UnfollowResponseDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponseDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +17,7 @@ public class UserServiceImpl implements IUserService{
     IUserRepository userRepository;
 
     @Override
-    public UnfollowResponseDTO unfollowUser(String userId, String userIdToUnfollow) {
+    public ResponseDTO unfollowUser(String userId, String userIdToUnfollow) {
         Integer userIdInt = Integer.valueOf(userId),
                 userIdToUnfollowInt = Integer.valueOf(userIdToUnfollow);
 
@@ -47,7 +45,7 @@ public class UserServiceImpl implements IUserService{
         sellerFollowers.remove(user);
         userRepository.setSellerFollowers(userIdToUnfollowInt, sellerFollowers);
 
-        return new UnfollowResponseDTO("El usuario " + user.getName() +
+        return new ResponseDTO("El usuario " + user.getName() +
                                         " ha dejado de seguir a: " + sellerToUnfollow.getName());
     }
 }

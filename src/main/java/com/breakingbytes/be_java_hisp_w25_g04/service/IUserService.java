@@ -1,7 +1,7 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UnfollowResponseDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponseDTO;
 
 public interface IUserService {
-    UnfollowResponseDTO unfollowUser(String userId, String userIdToUnfollow);
+    ResponseDTO unfollowUser(String userId, String userIdToUnfollow);
 }

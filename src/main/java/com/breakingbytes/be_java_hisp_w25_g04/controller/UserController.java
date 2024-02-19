@@ -1,6 +1,5 @@
 package com.breakingbytes.be_java_hisp_w25_g04.controller;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UnfollowResponseDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
