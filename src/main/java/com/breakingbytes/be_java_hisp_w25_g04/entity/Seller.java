@@ -28,4 +28,8 @@ public class Seller extends User{
         this.followers = followers;
         this.posts = posts;
     }
+
+    public void addFollower(User user){
+        this.followers.add(user);
+    }
 }
