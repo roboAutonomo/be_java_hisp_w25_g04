@@ -6,6 +6,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
+import com.breakingbytes.be_java_hisp_w25_g04.exception.BadRequestException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
@@ -83,16 +84,20 @@ public class UserServiceImpl implements IUserService {
         Optional<User> me = this.userRepository.findById(userId);
 
         if (me.isEmpty()){
-          throw new NotFoundException("Usuario no encontrado");
+          throw new BadRequestException("Usuario no encontrado"); // Not Found ??
         }
 
         Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
 
         if (userToFollow.isEmpty()){
-            throw new NotFoundException("Vendedor no encontrado");
+            throw new BadRequestException("Vendedor no encontrado"); // Not found ??
         }
 
+        if(userToFollow.get().getFollowers().contains(me.get())){
+            throw new BadRequestException("Ya estas siguiendo a ese usuario");
+        }
 
-        this.sellerRepository.addFollower(userToFollow.get() ,me.get());
+        this.sellerRepository.addFollower(userToFollow.get(), me.get());
+        this.userRepository.addFollowing(me.get(), userToFollow.get());
     }
 }

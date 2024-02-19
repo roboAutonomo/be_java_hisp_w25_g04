@@ -13,13 +13,12 @@ public class SellerRepositoryImpl implements ISellerRepository{
     }
 
     @Override
+    public void addFollower(Seller seller, User follower) {
+        seller.addFollower(follower);
+    }
+  
     public Optional<Seller> findById(int sellerId) {
         return DbMock.getInstance().getListOfSellers().stream().filter(s -> s.getId() == sellerId).findFirst();
     }
   
-  @Override
-    public void addFollower(Seller seller, User follower) {
-        seller.addFollower(follower); // validar si ya lo sigue
-      // Agregar al vendor a la lista de seguidos del usuario
-    }
 }

@@ -1,4 +1,5 @@
 package com.breakingbytes.be_java_hisp_w25_g04.repository;
+import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +24,10 @@ public class UserRepositoryImpl implements IUserRepository{
                 .stream()
                 .filter(u -> u.getId() == userId)
                 .findFirst();
+    }
+
+    @Override
+    public void addFollowing(User user, Seller following) {
+        user.addFollowing(following);
     }
 }
