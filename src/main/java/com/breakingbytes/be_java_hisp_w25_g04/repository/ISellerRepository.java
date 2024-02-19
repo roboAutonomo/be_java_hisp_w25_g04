@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface ISellerRepository {
     Optional<Seller> findById(int sellerId);
 
-    Void addFollower(Seller seller, User follower);
+    void addFollower(Seller seller, User follower);
 
 }

@@ -18,4 +18,9 @@ public class User {
     String name;
     @JsonManagedReference
     List<Seller> following;
+
+    public void addFollowing(Seller seller){
+        this.following.add(seller);
+    }
+
 }

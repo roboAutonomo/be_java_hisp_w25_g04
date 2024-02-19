@@ -14,8 +14,7 @@ public class SellerRepositoryImpl implements ISellerRepository{
     }
 
     @Override
-    public Void addFollower(Seller seller, User follower) {
+    public void addFollower(Seller seller, User follower) {
         seller.addFollower(follower);
-        return null;
     }
 }
