@@ -25,4 +25,16 @@ public class UserRepositoryImpl implements IUserRepository{
             .get()
             .setFollowing(userFollowings);
     }
+
+    @Override
+    public void setSellerFollowers(Integer sellerId, List<User> sellerFollowers) {
+        DbMock
+                .getInstance()
+                .getListOfSellers()
+                .stream()
+                .filter(s -> s.getId() == sellerId)
+                .findFirst()
+                .get()
+                .setFollowers(sellerFollowers);
+    }
 }

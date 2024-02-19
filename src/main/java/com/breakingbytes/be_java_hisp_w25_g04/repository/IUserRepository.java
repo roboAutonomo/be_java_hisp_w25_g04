@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository {
-    public Optional<User> findById(int userId);
+    Optional<User> findById(int userId);
 
-    public void setUserFollowings(Integer userId, List<Seller> userFollowings);
+     void setUserFollowings(Integer userId, List<Seller> userFollowings);
+
+    void setSellerFollowers(Integer sellerId, List<User> sellerFollowers);
 }

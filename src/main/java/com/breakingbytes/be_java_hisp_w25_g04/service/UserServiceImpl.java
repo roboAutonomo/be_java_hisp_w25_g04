@@ -4,6 +4,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UnfollowResponseDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
+import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,11 +39,15 @@ public class UserServiceImpl implements IUserService{
             throw new NotFoundException("El usuario que se quiere dejar de seguir no fue encontrado.");
         }
 
-        Seller userToUnfollow = userToUnfollowOpt.get();
-        userFollowings.remove(userToUnfollow);
+        Seller sellerToUnfollow = userToUnfollowOpt.get();
+        userFollowings.remove(sellerToUnfollow);
         userRepository.setUserFollowings(userIdInt, userFollowings);
 
+        List<User> sellerFollowers = sellerToUnfollow.getFollowers();
+        sellerFollowers.remove(user);
+        userRepository.setSellerFollowers(userIdToUnfollowInt, sellerFollowers);
+
         return new UnfollowResponseDTO("El usuario " + user.getName() +
-                                        " ha dejado de seguir a: " + userToUnfollow.getName());
+                                        " ha dejado de seguir a: " + sellerToUnfollow.getName());
     }
 }
