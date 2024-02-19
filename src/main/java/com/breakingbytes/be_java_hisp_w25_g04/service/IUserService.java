@@ -1,8 +1,16 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.FollowersCountDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import java.io.IOException;
 
-public interface IUserService {
+import java.util.List;
 
+public interface IUserService {
+    FollowersCountDTO getCountFollowersOfSeller(int id);
+    UserFollowersDTO getUsersFollowersOf(int userId, String order);
+    UserFollowedDTO getUsersFollowed(int userId, String order);
     void follow(int userId, int userIdToFollow);
 }
