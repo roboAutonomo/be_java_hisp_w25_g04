@@ -36,7 +36,6 @@ public class UserRepositoryImpl implements IUserRepository{
                 .get()
                 .setFollowers(sellerFollowers);
     }
-=======
 
     @Override
     public List<User> findAll() {
