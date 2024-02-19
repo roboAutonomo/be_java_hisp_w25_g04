@@ -26,39 +26,29 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.FollowersCountDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.BadRequestException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
-import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
-
-import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
 
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
-
-    @Autowired
     IUserRepository userRepository;
-  
-    @Autowired
     ISellerRepository sellerRepository;
-
-    @Autowired
     Mapper mapper;
+
+    public UserServiceImpl(IUserRepository userRepository, ISellerRepository sellerRepository, Mapper mapper) {
+        this.userRepository = userRepository;
+        this.sellerRepository = sellerRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public ResponseDTO unfollowUser(String userId, String userIdToUnfollow) {

@@ -1,6 +1,5 @@
 package com.breakingbytes.be_java_hisp_w25_g04.dto.response;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -12,7 +12,6 @@ import com.breakingbytes.be_java_hisp_w25_g04.repository.IProductRepository;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
 
 import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,16 +19,17 @@ import java.util.Optional;
 
 @Service
 public class SellerServiceImpl implements ISellerService{
-
-    @Autowired
     ISellerRepository sellerRepository;
-
-    @Autowired
     Mapper mapper;
-    @Autowired
     IPostRepository postRepository;
-    @Autowired
     IProductRepository productRepository;
+
+    public SellerServiceImpl(ISellerRepository sellerRepository, Mapper mapper, IPostRepository postRepository, IProductRepository productRepository) {
+        this.sellerRepository = sellerRepository;
+        this.mapper = mapper;
+        this.postRepository = postRepository;
+        this.productRepository = productRepository;
+    }
 
     @Override
     public void addPost(PostDTO postDTO) {
