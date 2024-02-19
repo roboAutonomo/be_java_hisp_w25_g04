@@ -23,76 +23,58 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
+
     @Autowired
     IUserRepository userRepository;
+
+    @Autowired
+    ISellerRepository sellerRepository;
 
     @Autowired
     ModelMapper mapper;
 
     public FollowersCountDTO getCountFollowersOfSeller(int id){
-        Seller seller = userRepository.getSellerById(id); // cambiar
-        return new FollowersCountDTO(seller.getId(), seller.getName(), seller.getFollowing().size());
+        Optional<Seller> seller = sellerRepository.findById(id);
+        if(seller.isEmpty()) throw new NotFoundException("ID de usuario invalido");
+        return new FollowersCountDTO(seller.get().getId(), seller.get().getName(), seller.get().getFollowing().size());
     }
 
     @Override
-    public UserFollowersDTO getFollowersSortedByOrder(int userId, String order) {
-        Seller seller = userRepository.getSellerById(userId); // cambiar 
-        List<User> followers = seller.getFollowers();
-        List<User> followersSorted;
-
-        if(order.equals("name_asc")){
-            followersSorted = followers.stream()
-                    .sorted(Comparator.comparing(User::getName))
-                    .collect(Collectors.toList());
-        }else{
-            followersSorted = followers.stream()
-                    .sorted(Comparator.comparing(User::getName, Comparator.reverseOrder()))
-                    .collect(Collectors.toList());
-        }
-
-        List<UserDTO> followersDto = followersSorted.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
-        return new UserFollowersDTO(seller.getId(), seller.getName(), followersDto);
-    }
-
-    @Override
-    public UserFollowedDTO getFollowedsSortedByOrder(int userId, String order) {
-        Seller seller = userRepository.getSellerById(userId);
-        List<Seller> followeds = seller.getFollowing();
-        List<Seller> followedsSorted;
-
-        if(order.equals("name_asc")){
-            followedsSorted = followeds.stream()
-                    .sorted(Comparator.comparing(User::getName))
-                    .collect(Collectors.toList());
-        }else{
-            followedsSorted = followeds.stream()
-                    .sorted(Comparator.comparing(User::getName, Comparator.reverseOrder()))
-                    .collect(Collectors.toList());
-        }
-
-
-        List<UserDTO> followedsDto = followedsSorted.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
-        return new UserFollowedDTO(seller.getId(), seller.getName(), followedsDto);
-    }
-
-
-    @Override
-    public UserFollowersDTO getUsersFollowersOf(UserDTO userDTO) {
-        Optional<Seller> user = this.sellerRepository.findById(userDTO.getId());
+    public UserFollowersDTO getUsersFollowersOf(int userId, String order) {
+        Optional<Seller> user = this.sellerRepository.findById(userId);
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
         List<UserDTO> followers = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        if(order.equals("name_asc")){
+            followers = followers.stream()
+                    .sorted(Comparator.comparing(UserDTO::getName))
+                    .collect(Collectors.toList());
+        }else if(order.equals("name_desc")){
+            followers = followers.stream()
+                    .sorted(Comparator.comparing(UserDTO::getName, Comparator.reverseOrder()))
+                    .collect(Collectors.toList());
+        }
         return new UserFollowersDTO(user.get().getId(), user.get().getName(), followers);
     }
 
     @Override
-    public UserFollowedDTO getUsersFollowed(UserDTO userDTO) {
-        Optional<User> user = this.userRepository.findById(userDTO.getId());
+    public UserFollowedDTO getUsersFollowed(int userId, String order) {
+        Optional<User> user = this.userRepository.findById(userId);
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
-        List<Seller> userFollowes = user.get().getFollowing();
-        if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");
-        List<UserDTO> followed = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        List<Seller> userFolloweds = user.get().getFollowing();
+        if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");
+        List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        if (order.equals("name_asc")){
+            followed = followed.stream()
+                    .sorted(Comparator.comparing(UserDTO::getName))
+                    .collect(Collectors.toList());
+        }else if(order.equals("name_desc")){
+            followed = followed.stream()
+                    .sorted(Comparator.comparing(UserDTO::getName,
+                            Comparator.reverseOrder()))
+                    .collect(Collectors.toList());
+        }
         return new UserFollowedDTO(user.get().getId(), user.get().getName(), followed);
     }
   

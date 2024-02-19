@@ -24,29 +24,13 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}/followers/list")
-    public ResponseEntity<?> getFollowersSorted(@PathVariable int userId, @RequestParam String order){
-        return new ResponseEntity<>( userService.getFollowersSortedByOrder(userId, order), HttpStatus.OK);
+    public ResponseEntity<?> getUsersFollowersOf(@PathVariable int userId, @RequestParam(required = false, defaultValue = "") String order){
+        return new ResponseEntity<>( userService.getUsersFollowersOf(userId, order), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}/followed/list")
-    public ResponseEntity<?> getFollowedsSorted(@PathVariable int userId, @RequestParam String order){
-        return new ResponseEntity<>( userService.getFollowedsSortedByOrder(userId, order), HttpStatus.OK);
-
-    @GetMapping("/users/{userId}/followers/list")
-    public UserFollowersDTO getUsersFollowersOf(@PathVariable int userId) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(userId);
-        return this.userService.getUsersFollowersOf(userDTO);
-    };
-
-    @GetMapping("/users/{userId}/followed/list")
-    public UserFollowedDTO getUsersFollowed(@PathVariable int userId) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(userId);
-        return this.userService.getUsersFollowed(userDTO);
-    };
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
+    public ResponseEntity<?> getUsersFollowed(@PathVariable int userId, @RequestParam(required = false, defaultValue = "") String order){
+        return new ResponseEntity<>( userService.getUsersFollowed(userId, order), HttpStatus.OK);
     }
 
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")

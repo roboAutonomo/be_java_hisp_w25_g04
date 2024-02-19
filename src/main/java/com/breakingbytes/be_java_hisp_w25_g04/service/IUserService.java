@@ -10,9 +10,7 @@ import java.util.List;
 
 public interface IUserService {
     FollowersCountDTO getCountFollowersOfSeller(int id);
-    UserFollowersDTO getFollowersSortedByOrder(int userId, String order);
-    UserFollowedDTO getFollowedsSortedByOrder(int userId, String order);
-    UserFollowersDTO getUsersFollowersOf(UserDTO userDTO);
-    UserFollowedDTO getUsersFollowed(UserDTO userDTO);
+    UserFollowersDTO getUsersFollowersOf(int userId, String order);
+    UserFollowedDTO getUsersFollowed(int userId, String order);
     void follow(int userId, int userIdToFollow);
 }
