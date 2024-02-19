@@ -43,17 +43,6 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     Mapper mapper;
-    
-    
-    public void addPost(PostDTO postDTO) {
-        Post post = mapper.modelMapper().map(postDTO, Post.class);
-        Optional<Seller> seller = userRepository.findSellerById(postDTO.getUserId());
-
-        if (seller.isPresent())
-            userRepository.addPost(post, seller.get());
-        else
-            throw new NotFoundException("No se ha encontrado un vendedor con ese ID");
-     }
 
     public FollowersCountDTO getCountFollowersOfSeller(int id){
         Optional<Seller> seller = sellerRepository.findById(id);
@@ -67,7 +56,7 @@ public class UserServiceImpl implements IUserService {
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
-        List<UserDTO> followers = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        List<UserDTO> followers = userFollowes.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
         if(order.equals("name_asc")){
             followers = followers.stream()
                     .sorted(Comparator.comparing(UserDTO::getName))
@@ -86,7 +75,7 @@ public class UserServiceImpl implements IUserService {
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<Seller> userFolloweds = user.get().getFollowing();
         if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");
-        List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
         if (order.equals("name_asc")){
             followed = followed.stream()
                     .sorted(Comparator.comparing(UserDTO::getName))

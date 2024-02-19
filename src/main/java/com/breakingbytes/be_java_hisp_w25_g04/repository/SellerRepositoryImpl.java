@@ -1,4 +1,5 @@
 package com.breakingbytes.be_java_hisp_w25_g04.repository;
+import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -19,6 +20,13 @@ public class SellerRepositoryImpl implements ISellerRepository{
   
     public Optional<Seller> findById(int sellerId) {
         return DbMock.getInstance().getListOfSellers().stream().filter(s -> s.getId() == sellerId).findFirst();
+    }
+
+    @Override
+    public void addPost(Post post, Seller seller) {
+        seller.getPosts().add(post);
+        DbMock.getInstance().getListOfPost().add(post);
+        DbMock.getInstance().getListOfProduct().add(post.getProduct());
     }
   
 }

@@ -14,14 +14,6 @@ import java.util.Optional;
 public class UserRepositoryImpl implements IUserRepository{
 
     @Override
-    public void addPost(Post post, Seller seller) {
-        seller.getPosts().add(post);
-        DbMock.getInstance().getListOfPost().add(post);
-        DbMock.getInstance().getListOfProduct().add(post.getProduct());
-    }
-
-
-    @Override
     public List<User> getUsers() {
         return DbMock
                 .getInstance()

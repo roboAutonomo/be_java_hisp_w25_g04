@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository {
-    // public void addPost(Post post, Seller seller);
+
     public List<User> getUsers();
     public Optional<User> findById(int userId);
     void addFollowing(User user, Seller following);

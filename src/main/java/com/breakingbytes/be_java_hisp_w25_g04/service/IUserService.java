@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    // public void addPost(PostDTO postDTO); 
+
     FollowersCountDTO getCountFollowersOfSeller(int id);
     UserFollowersDTO getUsersFollowersOf(int userId, String order);
     UserFollowedDTO getUsersFollowed(int userId, String order);

@@ -3,6 +3,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.request.PostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.service.ISellerService;
 import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
 import com.breakingbytes.be_java_hisp_w25_g04.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,13 @@ public class UserController {
     @Autowired
     IUserService userService;
 
+    @Autowired
+    ISellerService sellerService;
+
 
     @PostMapping("/products/post")
     public ResponseEntity<?> addPost(@RequestBody PostDTO postDTO){
-        userService.addPost(postDTO);
+        sellerService.addPost(postDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -46,6 +50,11 @@ public class UserController {
     public ResponseEntity<?> followUser(@PathVariable("userId") int userId, @PathVariable("userIdToFollow") int userIdToFollow) {
         userService.follow(userId, userIdToFollow);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<?> getAllPosts(){
+        return new ResponseEntity<>( sellerService.findAllPosts(), HttpStatus.OK);
     }
       
 
