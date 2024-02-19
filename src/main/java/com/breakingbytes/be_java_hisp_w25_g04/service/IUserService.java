@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface IUserService {
     public void addPost(PostDTO postDTO);
-    public List<Post> getAll();
 }

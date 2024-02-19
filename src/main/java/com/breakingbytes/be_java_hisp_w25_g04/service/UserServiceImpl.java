@@ -20,14 +20,11 @@ public class UserServiceImpl implements IUserService{
     Mapper mapper;
     public void addPost(PostDTO postDTO) {
         Post post = mapper.modelMapper().map(postDTO, Post.class);
-        Optional<Seller> seller = userRepository.getSellerById(postDTO.getUserId());
+        Optional<Seller> seller = userRepository.findSellerById(postDTO.getUserId());
 
         if (seller.isPresent())
             userRepository.addPost(post, seller.get());
         else
             throw new NotFoundException("No se ha encontrado un vendedor con ese ID");
-    }
-    public List<Post> getAll(){
-        return userRepository.getAll();
     }
 }

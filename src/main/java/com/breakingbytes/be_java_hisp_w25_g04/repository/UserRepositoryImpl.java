@@ -19,12 +19,7 @@ public class UserRepositoryImpl implements IUserRepository{
     }
 
     @Override
-    public List<Post> getAll() {
-        return DbMock.getInstance().getListOfPost();
-    }
-
-    @Override
-    public Optional<Seller> getSellerById(int userId) {
+    public Optional<Seller> findSellerById(int userId) {
         return DbMock.getInstance().getListOfSellers()
                 .stream().filter(seller -> seller.getId() == userId)
                 .findFirst();

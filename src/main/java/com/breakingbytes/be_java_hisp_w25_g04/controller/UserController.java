@@ -20,8 +20,4 @@ public class UserController {
         userService.addPost(postDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/test")
-    public ResponseEntity<?> test(){
-        return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
-    }
 }

@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface IUserRepository {
     public void addPost(Post post, Seller seller);
-    public List<Post> getAll();
-    public Optional<Seller> getSellerById(int userId);
+    public Optional<Seller> findSellerById(int userId);
 }
