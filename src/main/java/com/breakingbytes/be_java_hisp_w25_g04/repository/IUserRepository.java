@@ -11,9 +11,14 @@ import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import java.util.List;
 import java.util.Optional;
 
-public interface IUserRepository {
+import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 
-    public List<User> getUsers();
+import java.util.List;
+import java.util.Optional;
+
+public interface IUserRepository {
+    List<User> findAll();
     public Optional<User> findById(int userId);
     void addFollowing(User user, Seller following);
+
 }
