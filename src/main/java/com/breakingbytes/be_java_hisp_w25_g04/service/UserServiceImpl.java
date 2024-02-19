@@ -74,7 +74,7 @@ public class UserServiceImpl implements IUserService {
             for (Post p : s.getPosts()){
                 if(!p.getDate().isBefore(LocalDate.now().minusWeeks(2))){
                     posts.add( new PostDto(s.getId(),
-                            p.getId(),
+                            p.getUserId(),
                             p.getDate(),
                             p.getProduct(),
                             p.getCategory(),
