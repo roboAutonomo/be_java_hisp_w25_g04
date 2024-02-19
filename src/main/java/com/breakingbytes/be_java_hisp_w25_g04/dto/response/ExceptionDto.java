@@ -11,5 +11,4 @@ import org.springframework.http.HttpStatus;
 public class ExceptionDto {
     String message;
     int statusCode;
-
 }
