@@ -24,9 +24,8 @@ import java.util.Optional;
 
 public interface IUserRepository {
 
-     void setUserFollowings(Integer userId, List<Seller> userFollowings);
-    void setSellerFollowers(Integer sellerId, List<User> sellerFollowers);
+    void setUserFollowings(Integer userId, List<Seller> userFollowings);
     List<User> findAll();
-    public Optional<User> findById(int userId);
+    Optional<User> findById(int userId);
     void addFollowing(User user, Seller following);
 }

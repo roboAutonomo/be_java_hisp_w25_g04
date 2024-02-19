@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     IUserRepository userRepository;
   
-  @Autowired
+    @Autowired
     ISellerRepository sellerRepository;
 
     @Autowired
@@ -69,8 +69,8 @@ public class UserServiceImpl implements IUserService {
         if(userOpt.isEmpty()) {
             throw new NotFoundException("Usuario no encontrado.");
         }
-        User user = userOpt.get();
 
+        User user = userOpt.get();
         List<Seller> userFollowings = user.getFollowing();
         Optional<Seller> userToUnfollowOpt = userFollowings
                                                     .stream()
@@ -78,19 +78,14 @@ public class UserServiceImpl implements IUserService {
                                                     .findFirst();
 
         if(userToUnfollowOpt.isEmpty()) {
-            throw new NotFoundException("El usuario que se quiere dejar de seguir no fue encontrado.");
+            throw new NotFoundException("El usuario que se quiere dejar de seguir no fue encontrado en los seguidos.");
         }
 
         Seller sellerToUnfollow = userToUnfollowOpt.get();
         userFollowings.remove(sellerToUnfollow);
         userRepository.setUserFollowings(userIdInt, userFollowings);
 
-        List<User> sellerFollowers = sellerToUnfollow.getFollowers();
-        sellerFollowers.remove(user);
-        userRepository.setSellerFollowers(userIdToUnfollowInt, sellerFollowers);
-
-        return new ResponseDTO("El usuario " + user.getName() +
-                                        " ha dejado de seguir a: " + sellerToUnfollow.getName());
+        return new ResponseDTO("El usuario " + user.getName() + " ha dejado de seguir a: " + sellerToUnfollow.getName());
     }
     
     

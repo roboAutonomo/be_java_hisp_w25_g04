@@ -25,15 +25,15 @@ public class UserController {
     @Autowired
     IUserService userService;
 
+    @Autowired
+    ISellerService sellerService;
 
     @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowUser(@PathVariable("userId") String userId,
                                           @PathVariable("userIdToUnfollow") String userIdToUnfollow) {
+        sellerService.quitFollower(userIdToUnfollow, userId);
         return new ResponseEntity<>(userService.unfollowUser(userId, userIdToUnfollow), HttpStatus.OK);
     }
-  
-   @Autowired
-   ISellerService sellerService;
 
     @GetMapping("/products/followed/{userId}/list")
     public ResponseEntity<LastPostsDto> getPostOfVendorsFollowedByUser(

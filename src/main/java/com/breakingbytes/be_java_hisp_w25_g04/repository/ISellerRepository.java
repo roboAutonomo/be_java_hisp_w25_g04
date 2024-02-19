@@ -11,4 +11,5 @@ public interface ISellerRepository {
     Optional<Seller> findById(int sellerId);
     void addFollower(Seller seller, User follower);
     void addPost(Post post, Seller seller);
+    void setSellerFollowers(Integer sellerId, List<User> sellerFollowers);
 }

@@ -28,5 +28,16 @@ public class SellerRepositoryImpl implements ISellerRepository{
         DbMock.getInstance().getListOfPost().add(post);
         DbMock.getInstance().getListOfProduct().add(post.getProduct());
     }
-  
+
+    @Override
+    public void setSellerFollowers(Integer sellerId, List<User> sellerFollowers) {
+        DbMock
+            .getInstance()
+            .getListOfSellers()
+            .stream()
+            .filter(s -> s.getId() == sellerId)
+            .findFirst()
+            .get()
+            .setFollowers(sellerFollowers);
+    }
 }
