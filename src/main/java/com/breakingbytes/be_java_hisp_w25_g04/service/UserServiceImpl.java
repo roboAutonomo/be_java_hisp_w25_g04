@@ -189,13 +189,13 @@ public class UserServiceImpl implements IUserService {
         Optional<User> me = this.userRepository.findById(userId);
 
         if (me.isEmpty()){
-          throw new BadRequestException("Usuario no encontrado"); // Not Found ??
+          throw new NotFoundException("Usuario no encontrado");
         }
 
         Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
 
         if (userToFollow.isEmpty()){
-            throw new BadRequestException("Vendedor no encontrado"); // Not found ??
+            throw new NotFoundException("Vendedor no encontrado");
         }
 
         if(userToFollow.get().getFollowers().contains(me.get())){
