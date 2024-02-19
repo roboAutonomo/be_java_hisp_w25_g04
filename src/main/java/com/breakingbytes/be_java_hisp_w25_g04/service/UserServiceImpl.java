@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
     @Autowired
     IUserRepository userRepository;
 
@@ -44,5 +44,23 @@ public class UserServiceImpl implements IUserService{
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");
         List<UserDTO> followed = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
         return new UserFollowedDTO(user.get().getId(), user.get().getName(), followed);
+    }
+  
+    @Override
+    public void follow(int userId, int userIdToFollow) {
+        Optional<User> me = this.userRepository.findById(userId);
+
+        if (me.isEmpty()){
+          throw new NotFoundException("Usuario no encontrado");
+        }
+
+        Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
+
+        if (userToFollow.isEmpty()){
+            throw new NotFoundException("Vendedor no encontrado");
+        }
+
+
+        this.sellerRepository.addFollower(userToFollow.get() ,me.get());
     }
 }
