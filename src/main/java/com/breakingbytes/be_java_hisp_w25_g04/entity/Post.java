@@ -13,10 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Post {
-    int id;
     LocalDate date;
     Product product;
     int category;
     double price;
-
 }

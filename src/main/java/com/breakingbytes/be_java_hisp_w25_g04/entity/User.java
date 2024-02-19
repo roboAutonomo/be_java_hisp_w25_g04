@@ -1,6 +1,5 @@
 package com.breakingbytes.be_java_hisp_w25_g04.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +15,5 @@ import java.util.List;
 public class User {
     int id;
     String name;
-    @JsonManagedReference
-    List<Seller> following;
+    List<User> following;
 }
