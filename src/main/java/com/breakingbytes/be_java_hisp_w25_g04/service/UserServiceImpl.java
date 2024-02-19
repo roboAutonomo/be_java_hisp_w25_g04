@@ -32,8 +32,8 @@ public class UserServiceImpl implements IUserService{
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
-        List<UserDTO> followes = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
-        return new UserFollowersDTO(user.get().getId(), user.get().getName(), followes);
+        List<UserDTO> followers = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        return new UserFollowersDTO(user.get().getId(), user.get().getName(), followers);
     }
 
     @Override
