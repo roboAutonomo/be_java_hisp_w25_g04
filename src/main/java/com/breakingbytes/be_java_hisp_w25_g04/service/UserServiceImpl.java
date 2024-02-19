@@ -125,10 +125,7 @@ public class UserServiceImpl implements IUserService {
            case "date_desc" -> posts.sort(Comparator.comparing(PostDto::getDate).reversed());
            //default case is already satisfied
        };
-
         return new LastPostsDto(user.getId(), posts);
-
-
     }
 
     
@@ -184,13 +181,13 @@ public class UserServiceImpl implements IUserService {
         Optional<User> me = this.userRepository.findById(userId);
 
         if (me.isEmpty()){
-          throw new BadRequestException("Usuario no encontrado"); // Not Found ??
+          throw new NotFoundException("Usuario no encontrado");
         }
 
         Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
 
         if (userToFollow.isEmpty()){
-            throw new BadRequestException("Vendedor no encontrado"); // Not found ??
+            throw new NotFoundException("Vendedor no encontrado");
         }
 
         if(userToFollow.get().getFollowers().contains(me.get())){
