@@ -1,20 +1,27 @@
 package com.breakingbytes.be_java_hisp_w25_g04.repository;
-
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements IUserRepository{
+
     @Override
-    public Seller getSellerById(int idSeller) {
-        List<Seller> sellers = DbMock.getInstance().getListOfSellers();
-        return sellers.stream()
-                .filter( s -> s.getId() == idSeller)
-                .findFirst()
-                .get();
+    public List<User> getUsers() {
+        return DbMock
+                .getInstance()
+                .getListOfUsers();
+    }
+
+    @Override
+    public Optional<User> findById(int userId) {
+        return DbMock
+                .getInstance()
+                .getListOfUsers()
+                .stream()
+                .filter(u -> u.getId() == userId)
+                .findFirst();
     }
 }
