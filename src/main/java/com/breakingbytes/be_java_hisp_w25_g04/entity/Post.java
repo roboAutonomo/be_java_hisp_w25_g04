@@ -1,5 +1,6 @@
 package com.breakingbytes.be_java_hisp_w25_g04.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Post {
-    int id;
+    int userId;
     LocalDate date;
     Product product;
     int category;
