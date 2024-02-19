@@ -21,4 +21,11 @@ public class UserController {
         return this.userService.getUsersFollowersOf(userDTO);
     };
 
+    @GetMapping("/users/{userId}/followed/list")
+    public List<UserDTO> getUsersFollowed(@PathVariable int userId) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(userId);
+        return this.userService.getUsersFollowed(userDTO);
+    };
+
 }

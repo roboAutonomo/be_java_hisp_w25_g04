@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IUserService {
     public List<UserDTO> getUsersFollowersOf(UserDTO userDTO);
+    public List<UserDTO> getUsersFollowed(UserDTO userDTO);
 }
