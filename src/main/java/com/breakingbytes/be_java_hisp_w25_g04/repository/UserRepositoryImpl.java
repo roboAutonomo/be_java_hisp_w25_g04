@@ -18,12 +18,12 @@ public class UserRepositoryImpl implements IUserRepository{
     }
 
     @Override
-    public Optional<User> getUser(UserDTO userDTO) {
+    public Optional<User> getUser(int userId) {
         return DbMock
                 .getInstance()
                 .getListOfUsers()
                 .stream()
-                .filter(u -> u.getId() == userDTO.getId())
+                .filter(u -> u.getId() == userId)
                 .findFirst();
     }
 }
