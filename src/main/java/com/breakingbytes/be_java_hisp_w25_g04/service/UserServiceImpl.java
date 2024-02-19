@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     IUserRepository userRepository;
   
-  @Autowired
+    @Autowired
     ISellerRepository sellerRepository;
 
     @Autowired
@@ -130,10 +130,7 @@ public class UserServiceImpl implements IUserService {
            case "date_desc" -> posts.sort(Comparator.comparing(PostDto::getDate).reversed());
            //default case is already satisfied
        };
-
         return new LastPostsDto(user.getId(), posts);
-
-
     }
 
     
