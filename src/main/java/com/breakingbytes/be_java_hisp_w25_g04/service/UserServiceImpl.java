@@ -28,7 +28,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserFollowersDTO getUsersFollowersOf(UserDTO userDTO) {
-        Optional<Seller> user = this.sellerRepository.getSeller(userDTO.getId());
+        Optional<Seller> user = this.sellerRepository.findById(userDTO.getId());
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
@@ -38,7 +38,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserFollowedDTO getUsersFollowed(UserDTO userDTO) {
-        Optional<User> user = this.userRepository.getUser(userDTO.getId());
+        Optional<User> user = this.userRepository.findById(userDTO.getId());
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<Seller> userFollowes = user.get().getFollowing();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");

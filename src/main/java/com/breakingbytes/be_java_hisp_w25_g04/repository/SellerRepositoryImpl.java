@@ -19,7 +19,7 @@ public class SellerRepositoryImpl implements ISellerRepository{
   
   @Override
     public void addFollower(Seller seller, User follower) {
-        seller.addFollower(follower);
-        return null;
+        seller.addFollower(follower); // validar si ya lo sigue
+      // Agregar al vendor a la lista de seguidos del usuario
     }
 }
