@@ -1,6 +1,8 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
@@ -25,20 +27,22 @@ public class UserServiceImpl implements IUserService{
     ModelMapper mapper;
 
     @Override
-    public List<UserDTO> getUsersFollowersOf(UserDTO userDTO) {
+    public UserFollowersDTO getUsersFollowersOf(UserDTO userDTO) {
         Optional<Seller> user = this.sellerRepository.getSeller(userDTO.getId());
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
-        return userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        List<UserDTO> followes = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        return new UserFollowersDTO(user.get().getId(), user.get().getName(), followes);
     }
 
     @Override
-    public List<UserDTO> getUsersFollowed(UserDTO userDTO) {
+    public UserFollowedDTO getUsersFollowed(UserDTO userDTO) {
         Optional<User> user = this.userRepository.getUser(userDTO.getId());
         if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         List<Seller> userFollowes = user.get().getFollowing();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");
-        return userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        List<UserDTO> followed = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
+        return new UserFollowedDTO(user.get().getId(), user.get().getName(), followed);
     }
 }

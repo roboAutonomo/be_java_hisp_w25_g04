@@ -1,10 +1,10 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
-
-import java.util.List;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
 
 public interface IUserService {
-    public List<UserDTO> getUsersFollowersOf(UserDTO userDTO);
-    public List<UserDTO> getUsersFollowed(UserDTO userDTO);
+    public UserFollowersDTO getUsersFollowersOf(UserDTO userDTO);
+    public UserFollowedDTO getUsersFollowed(UserDTO userDTO);
 }

@@ -14,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserFollowersDTO {
+public class UserFollowedDTO {
     @JsonProperty("user_id")
     int id;
     @JsonProperty("user_name")
     String name;
-    List<UserDTO> followers;
+    List<UserDTO> followed;
 }
