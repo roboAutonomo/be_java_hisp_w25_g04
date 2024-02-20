@@ -4,6 +4,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDto;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.PostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.service.ISellerService;
 import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,8 @@ public class UserController {
     @PostMapping("/products/post")
     public ResponseEntity<?> addPost(@RequestBody PostDTO postDTO){
         sellerService.addPost(postDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity
+                .ok().build();
     }
 
     @GetMapping("/users/{userId}/followers/count")
@@ -66,7 +68,8 @@ public class UserController {
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<?> followUser(@PathVariable("userId") int userId, @PathVariable("userIdToFollow") int userIdToFollow) {
         userService.follow(userId, userIdToFollow);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity
+                .ok().build();
     }
 
     @GetMapping("/posts")
@@ -74,6 +77,4 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(sellerService.findAllPosts());
     }
-      
-
 }
