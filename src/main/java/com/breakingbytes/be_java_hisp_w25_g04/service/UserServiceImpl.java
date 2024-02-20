@@ -145,10 +145,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserFollowedDTO getUsersFollowed(int userId, String order) {
-        Optional<User> user = this.userRepository.findById(userId);
-        if(user.isEmpty()) throw new NotFoundException("ID de usuario invalido");
-        List<Seller> userFolloweds = user.get().getFollowing();
-        if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no sigue a vendedores");
+        Optional<User> me = this.userRepository.findById(userId);
+        Optional<Seller> seller = this.sellerRepository.findById(userId);
+        User user;
+
+        if(!seller.isEmpty()) user = seller.get();
+        else if(!me.isEmpty()) user = me.get();
+        else throw new NotFoundException("ID de usuario invalido");
+
+        List<Seller> userFolloweds = user.getFollowing();
+        if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.getId() + " no sigue a vendedores");
         List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
         if (order.equals("name_asc")){
             followed = followed.stream()
@@ -160,7 +166,7 @@ public class UserServiceImpl implements IUserService {
                             Comparator.reverseOrder()))
                     .collect(Collectors.toList());
         }
-        return new UserFollowedDTO(user.get().getId(), user.get().getName(), followed);
+        return new UserFollowedDTO(user.getId(), user.getName(), followed);
     }
   
     @Override
