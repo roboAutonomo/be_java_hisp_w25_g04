@@ -51,6 +51,12 @@ public class DbMock {
         Post post5 = new Post(5, LocalDate.now(), p5, 300, 30.0);
         this.listOfPost = new ArrayList<>(List.of(post1, post2, post3, post4, post5));
 
+        juan.getPosts().add(post1);
+        juan.getPosts().add(post2);
+        robert.getPosts().add(post3);
+        juan.getPosts().add(post4);
+        juan.getPosts().add(post5);
+
     }
 
     public List<User> getListOfUsers() {

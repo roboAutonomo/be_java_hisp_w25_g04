@@ -92,10 +92,7 @@ public class UserServiceImpl implements IUserService {
         Optional<User> opt = this.userRepository.findById(id);
         if (opt.isEmpty()) throw new NotFoundException("No se encuentra el id buscado");
         User user = opt.get();
-
         List<PostDto> posts = new ArrayList<>();
-
-
         for (Seller s : user.getFollowing()){
             for (Post p : s.getPosts()){
                 if(!p.getDate().isBefore(LocalDate.now().minusWeeks(2))){
