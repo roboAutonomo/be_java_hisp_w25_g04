@@ -169,22 +169,20 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void follow(int userId, int userIdToFollow) {
         Optional<User> me = this.userRepository.findById(userId);
+        Optional<Seller> seller = this.sellerRepository.findById(userId);
+        User user;
 
-        if (me.isEmpty()){
-          throw new NotFoundException("Usuario no encontrado");
-        }
+        if (!me.isEmpty()) user = me.get();
+        else if (!seller.isEmpty()) user = seller.get();
+        else throw new NotFoundException("Usuario no encontrado");
 
         Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
 
-        if (userToFollow.isEmpty()){
-            throw new NotFoundException("Vendedor no encontrado");
-        }
+        if (userToFollow.isEmpty()) throw new NotFoundException("Vendedor no encontrado");
 
-        if(userToFollow.get().getFollowers().contains(me.get())){
-            throw new BadRequestException("Ya estas siguiendo a ese usuario");
-        }
+        if(userToFollow.get().getFollowers().contains(user)) throw new BadRequestException("Ya estas siguiendo a ese usuario");
 
-        this.sellerRepository.addFollower(userToFollow.get(), me.get());
-        this.userRepository.addFollowing(me.get(), userToFollow.get());
+        this.sellerRepository.addFollower(userToFollow.get(), user);
+        this.userRepository.addFollowing(user, userToFollow.get());
     }
 }

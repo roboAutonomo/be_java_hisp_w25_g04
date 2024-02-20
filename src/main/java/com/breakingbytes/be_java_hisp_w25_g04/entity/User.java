@@ -7,17 +7,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     int id;
     String name;
     @JsonManagedReference
     List<Seller> following;
+    static int count = 1;
+    public User(){
+        this.id = count;
+        this.following = new ArrayList<>();
+        count++;
+    }
 
     public void addFollowing(Seller seller){
         this.following.add(seller);
