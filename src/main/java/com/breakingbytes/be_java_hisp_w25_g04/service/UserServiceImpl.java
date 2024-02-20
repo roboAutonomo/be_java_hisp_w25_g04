@@ -99,12 +99,9 @@ public class UserServiceImpl implements IUserService {
         for (Seller s : user.getFollowing()){
             for (Post p : s.getPosts()){
                 if(!p.getDate().isBefore(LocalDate.now().minusWeeks(2))){
-                    posts.add( new PostDto(s.getId(),
-                            p.getUserId(),
-                            p.getDate(),
-                            p.getProduct(),
-                            p.getCategory(),
-                            p.getPrice()));
+                    PostDto postDto = mapper.modelMapper().map(p, PostDto.class);
+                    postDto.setUserId(s.getId());
+                    posts.add(postDto);
                 }
             }
         }
