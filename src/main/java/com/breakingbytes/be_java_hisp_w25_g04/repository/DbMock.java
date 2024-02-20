@@ -42,14 +42,14 @@ public class DbMock {
         Product p3 = new Product(3, "Running Shoes", "Apparel", "Nike", "Blue", "Breathable mesh upper");
         Product p4 = new Product(4, "Headphones", "Electronics", "Sony", "Red", "Noise-canceling feature");
         Product p5 = new Product(5, "Backpack", "Accessories", "JanSport", "Gray", "Multiple compartments");
-        this.listOfProduct = List.of(p1, p2, p3, p4, p5);
+        this.listOfProduct = new ArrayList<>(List.of(p1, p2, p3, p4, p5));
 
         Post post1 = new Post(1, LocalDate.of(2024,02,20), p2, 100, 1500.0);
         Post post2 = new Post(2, LocalDate.of(2023,02,20), p3, 100, 1000.0);
         Post post3 = new Post(3, LocalDate.now(), p1, 200, 240.0);
         Post post4 = new Post(4, LocalDate.now(), p4, 100, 20.0);
         Post post5 = new Post(5, LocalDate.now(), p5, 300, 30.0);
-        this.listOfPost = List.of(post1, post2, post3, post4, post5);
+        this.listOfPost = new ArrayList<>(List.of(post1, post2, post3, post4, post5));
 
     }
 

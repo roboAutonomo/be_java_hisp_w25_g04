@@ -12,13 +12,13 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Seller extends User{
 
-    @JsonBackReference
     List<User> followers;
     List<Post> posts;
 
     public Seller() {
         super();
         this.followers = new ArrayList<>();
+        this.posts = new ArrayList<>();
     }
 
     public Seller(List<User> followers, List<Post> posts) {
