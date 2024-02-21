@@ -80,39 +80,6 @@ public class UserServiceImpl implements IUserService {
     public List<User> findAll() {
         return this.userRepository.findAll();
     }
-    
-    
-
-    @Override
-    public LastPostsDTO getPostOfVendorsFollowedByUser(int id, String order) {
-        Optional<User> opt = this.userRepository.findById(id);
-        if (opt.isEmpty()) throw new NotFoundException("No se encuentra el id buscado");
-        User user = opt.get();
-        List<ResponsePostDTO> posts = new ArrayList<>();
-        for (Seller s : user.getFollowing()){
-            for (Post p : s.getPosts()){
-                if(!p.getDate().isBefore(LocalDate.now().minusWeeks(2))){
-                    ResponsePostDTO responsePostDTO = mapper.modelMapper().map(p, ResponsePostDTO.class);
-                    responsePostDTO.setUserId(s.getId());
-                    posts.add(responsePostDTO);
-                }
-            }
-        }
-        if(posts.isEmpty()) throw new NotFoundException("No hay publicaciones que cumplan con el requisito");
-
-        switch (order){
-           case "date_asc" -> posts.sort(Comparator.comparing(ResponsePostDTO::getDate));
-           case "date_desc" -> posts.sort(Comparator.comparing(ResponsePostDTO::getDate).reversed());
-           //default case is already satisfied
-       };
-        return new LastPostsDTO(user.getId(), posts);
-    }
-
-    public FollowersCountDTO getCountFollowersOfSeller(int id){
-        Optional<Seller> seller = sellerRepository.findById(id);
-        if(seller.isEmpty()) throw new NotFoundException("ID de usuario invalido");
-        return new FollowersCountDTO(seller.get().getId(), seller.get().getName(), seller.get().getFollowers().size());
-    }
 
 
     @Override
@@ -159,24 +126,19 @@ public class UserServiceImpl implements IUserService {
         }
         return new UserFollowedDTO(user.getId(), user.getName(), followed);
     }
-  
+
     @Override
     public void follow(int userId, int userIdToFollow) {
         Optional<User> me = this.userRepository.findById(userId);
-        Optional<Seller> seller = this.sellerRepository.findById(userId);
-        User user;
-
-        if (!me.isEmpty()) user = me.get();
-        else if (!seller.isEmpty()) user = seller.get();
-        else throw new NotFoundException("Usuario no encontrado");
-
         Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
 
+        if (me.isEmpty()) throw new NotFoundException("Ususario no encontrado");
         if (userToFollow.isEmpty()) throw new NotFoundException("Vendedor no encontrado");
 
-        if(userToFollow.get().getFollowers().contains(user)) throw new BadRequestException("Ya estas siguiendo a ese usuario");
+        if (userToFollow.get().getFollowers().contains(me.get()))
+            throw new BadRequestException("Ya estas siguiendo a ese usuario");
 
-        this.sellerRepository.addFollower(userToFollow.get(), user);
-        this.userRepository.addFollowing(user, userToFollow.get());
+        this.sellerRepository.addFollower(userToFollow.get(), me.get());
+        this.userRepository.addFollowing(me.get(), userToFollow.get());
     }
 }

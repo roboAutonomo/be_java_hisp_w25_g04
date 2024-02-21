@@ -18,8 +18,6 @@ public interface IUserService {
     
     ResponseDTO unfollowUser(String userId, String userIdToUnfollow);
     List<User> findAll();
-    LastPostsDTO getPostOfVendorsFollowedByUser(int id, String order);
-    FollowersCountDTO getCountFollowersOfSeller(int id);
     UserFollowersDTO getUsersFollowersOf(int userId, String order);
     UserFollowedDTO getUsersFollowed(int userId, String order);
     void follow(int userId, int userIdToFollow);
