@@ -1,6 +1,6 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.PostDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.request.RequestPostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
@@ -32,21 +32,21 @@ public class SellerServiceImpl implements ISellerService{
     }
 
     @Override
-    public void addPost(PostDTO postDTO) {
-        Post post = mapper.modelMapper().map(postDTO, Post.class);
-        Optional<Seller> seller = sellerRepository.findById(postDTO.getUserId());
+    public void addPost(RequestPostDTO requestPostDTO) {
+        Post post = mapper.modelMapper().map(requestPostDTO, Post.class);
+        Optional<Seller> seller = sellerRepository.findById(requestPostDTO.getUserId());
         if (seller.isEmpty()) throw new NotFoundException("No se ha encontrado un vendedor con ese ID");
         Optional<Product> product = productRepository.findAll().stream()
-                .filter(p -> p.getId() == postDTO.getProduct().getId())
+                .filter(p -> p.getId() == requestPostDTO.getProduct().getId())
                 .findFirst();
         if (product.isPresent()) throw new BadRequestException("Ya existe un producto con ese ID");
         sellerRepository.addPost(post, seller.get());
     }
 
     @Override
-    public List<PostDTO> findAllPosts() {
+    public List<RequestPostDTO> findAllPosts() {
         return postRepository.findAll()
-                .stream().map(p -> mapper.modelMapper().map(p, PostDTO.class)).toList();
+                .stream().map(p -> mapper.modelMapper().map(p, RequestPostDTO.class)).toList();
     }
 
     public Boolean quitFollower(String sellerId, String userId) {

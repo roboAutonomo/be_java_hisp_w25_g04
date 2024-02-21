@@ -3,20 +3,16 @@ package com.breakingbytes.be_java_hisp_w25_g04.service;
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponseDTO;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDto;
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.PostDto;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponsePostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.PostDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -88,38 +84,36 @@ public class UserServiceImpl implements IUserService {
     
 
     @Override
-    public LastPostsDto getPostOfVendorsFollowedByUser(int id, String order) {
+    public LastPostsDTO getPostOfVendorsFollowedByUser(int id, String order) {
         Optional<User> opt = this.userRepository.findById(id);
         if (opt.isEmpty()) throw new NotFoundException("No se encuentra el id buscado");
         User user = opt.get();
-        List<PostDto> posts = new ArrayList<>();
+        List<ResponsePostDTO> posts = new ArrayList<>();
         for (Seller s : user.getFollowing()){
             for (Post p : s.getPosts()){
                 if(!p.getDate().isBefore(LocalDate.now().minusWeeks(2))){
-                    PostDto postDto = mapper.modelMapper().map(p, PostDto.class);
-                    postDto.setUserId(s.getId());
-                    posts.add(postDto);
+                    ResponsePostDTO responsePostDTO = mapper.modelMapper().map(p, ResponsePostDTO.class);
+                    responsePostDTO.setUserId(s.getId());
+                    posts.add(responsePostDTO);
                 }
             }
         }
         if(posts.isEmpty()) throw new NotFoundException("No hay publicaciones que cumplan con el requisito");
 
         switch (order){
-           case "date_asc" -> posts.sort(Comparator.comparing(PostDto::getDate));
-           case "date_desc" -> posts.sort(Comparator.comparing(PostDto::getDate).reversed());
+           case "date_asc" -> posts.sort(Comparator.comparing(ResponsePostDTO::getDate));
+           case "date_desc" -> posts.sort(Comparator.comparing(ResponsePostDTO::getDate).reversed());
            //default case is already satisfied
        };
-        return new LastPostsDto(user.getId(), posts);
+        return new LastPostsDTO(user.getId(), posts);
     }
-
-    
-    
 
     public FollowersCountDTO getCountFollowersOfSeller(int id){
         Optional<Seller> seller = sellerRepository.findById(id);
         if(seller.isEmpty()) throw new NotFoundException("ID de usuario invalido");
-        return new FollowersCountDTO(seller.get().getId(), seller.get().getName(), seller.get().getFollowing().size());
+        return new FollowersCountDTO(seller.get().getId(), seller.get().getName(), seller.get().getFollowers().size());
     }
+
 
     @Override
     public UserFollowersDTO getUsersFollowersOf(int userId, String order) {

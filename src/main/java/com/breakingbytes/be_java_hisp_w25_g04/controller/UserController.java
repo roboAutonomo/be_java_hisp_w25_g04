@@ -1,13 +1,11 @@
 package com.breakingbytes.be_java_hisp_w25_g04.controller;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDto;
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.PostDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.request.RequestPostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.service.ISellerService;
 import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/products/followed/{userId}/list")
-    public ResponseEntity<LastPostsDto> getPostOfVendorsFollowedByUser(
+    public ResponseEntity<LastPostsDTO> getPostOfVendorsFollowedByUser(
             @PathVariable int userId,
             @RequestParam(name = "order", required = false, defaultValue = "none") String order){
         return ResponseEntity.ok()
@@ -41,8 +39,8 @@ public class UserController {
     }
 
     @PostMapping("/products/post")
-    public ResponseEntity<?> addPost(@RequestBody PostDTO postDTO){
-        sellerService.addPost(postDTO);
+    public ResponseEntity<?> addPost(@RequestBody RequestPostDTO requestPostDTO){
+        sellerService.addPost(requestPostDTO);
         return ResponseEntity
                 .ok().build();
     }
