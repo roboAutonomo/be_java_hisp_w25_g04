@@ -1,4 +1,4 @@
-package com.breakingbytes.be_java_hisp_w25_g04.entity;
+package com.breakingbytes.be_java_hisp_w25_g04.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
@@ -11,14 +11,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product {
-    @JsonProperty("product_id")
+public class UserDTO {
+    @JsonProperty("user_id")
     int id;
-    @JsonProperty("product_name")
+    @JsonProperty("user_name")
     String name;
-    String type;
-    String brand;
-    String color;
-    String notes;
-
 }
