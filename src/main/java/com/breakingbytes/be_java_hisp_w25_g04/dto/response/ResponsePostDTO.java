@@ -22,8 +22,6 @@ public class ResponsePostDTO {
     Product product;
     Integer category;
     Double price;
-
-
 }
 
 
