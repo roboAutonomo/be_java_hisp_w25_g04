@@ -47,9 +47,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ResponseDTO unfollowUser(String userId, String userIdToUnfollow) {
-        Integer userIdInt = Integer.valueOf(userId),
-                userIdToUnfollowInt = Integer.valueOf(userIdToUnfollow);
+    public ResponseDTO unfollowUser(Integer userIdInt, Integer userIdToUnfollowInt) {
 
         Optional<User> userOpt = userRepository.findById(userIdInt);
         if(userOpt.isEmpty()) {
@@ -60,7 +58,7 @@ public class UserServiceImpl implements IUserService {
         List<Seller> userFollowings = user.getFollowing();
         Optional<Seller> userToUnfollowOpt = userFollowings
                                                     .stream()
-                                                    .filter(us -> us.getId() == userIdToUnfollowInt)
+                                                    .filter(us -> Objects.equals(us.getId(), userIdToUnfollowInt))
                                                     .findFirst();
 
         if(userToUnfollowOpt.isEmpty()) {
@@ -83,7 +81,7 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public UserFollowersDTO getUsersFollowersOf(int userId, String order) {
+    public UserFollowersDTO getUsersFollowersOf(Integer userId, String order) {
         Optional<Seller> user = this.sellerRepository.findById(userId);
         if(user.isEmpty()) throw new NotFoundException("El ID del vendedor es invalido");
         List<User> userFollowes = user.get().getFollowers();
@@ -93,13 +91,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserFollowedDTO getUsersFollowed(int userId, String order) {
+    public UserFollowedDTO getUsersFollowed(Integer userId, String order) {
         Optional<User> me = this.userRepository.findById(userId);
         Optional<Seller> seller = this.sellerRepository.findById(userId);
         User user;
 
-        if(!seller.isEmpty()) user = seller.get();
-        else if(!me.isEmpty()) user = me.get();
+        if(seller.isPresent()) user = seller.get();
+        else if(me.isPresent()) user = me.get();
         else throw new NotFoundException("ID de usuario invalido");
         List<Seller> userFolloweds = user.getFollowing();
         if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.getId() + " no sigue a vendedores");
@@ -122,7 +120,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void follow(int userId, int userIdToFollow) {
+    public void follow(Integer userId, Integer userIdToFollow) {
         Optional<User> me = this.userRepository.findById(userId);
         Optional<Seller> userToFollow = this.sellerRepository.findById(userIdToFollow);
 

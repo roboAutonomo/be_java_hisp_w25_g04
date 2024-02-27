@@ -19,10 +19,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SellerServiceImpl implements ISellerService{
@@ -46,7 +43,7 @@ public class SellerServiceImpl implements ISellerService{
         Optional<Seller> seller = sellerRepository.findById(requestPostDTO.getUserId());
         if (seller.isEmpty()) throw new NotFoundException("No se ha encontrado un vendedor con ese ID");
         Optional<Product> product = productRepository.findAll().stream()
-                .filter(p -> p.getId() == requestPostDTO.getProduct().getId())
+                .filter(p -> Objects.equals(p.getId(), requestPostDTO.getProduct().getId()))
                 .findFirst();
         if (product.isPresent()) throw new BadRequestException("Ya existe un producto con ese ID");
         sellerRepository.addPost(post, seller.get());
@@ -58,20 +55,18 @@ public class SellerServiceImpl implements ISellerService{
                 .stream().map(p -> mapper.modelMapper().map(p, RequestPostDTO.class)).toList();
     }
 
-    public Boolean quitFollower(String sellerId, String userId) {
-        Integer sellerIdInt = Integer.valueOf(sellerId),
-                userIdInt = Integer.valueOf(userId);
+    public Boolean quitFollower(Integer sellerIdInt, Integer userIdInt) {
 
         Optional<Seller> sellerOpt = sellerRepository.findById(sellerIdInt);
         if(sellerOpt.isEmpty()) {
-            throw new NotFoundException("No se ha encontrado vendedor con id: " + sellerId);
+            throw new NotFoundException("No se ha encontrado vendedor con id: " + sellerIdInt);
         }
 
         Seller seller = sellerOpt.get();
         List<User> sellerFollowers = seller.getFollowers();
         Optional<User> userUnfollowedOpt = sellerFollowers
                                                 .stream()
-                                                .filter(u -> u.getId() == userIdInt)
+                                                .filter(u -> Objects.equals(u.getId(), userIdInt))
                                                 .findFirst();
         if(userUnfollowedOpt.isEmpty()) {
             throw new NotFoundException("El usuario no se encuentra entre los seguidores.");
@@ -84,7 +79,7 @@ public class SellerServiceImpl implements ISellerService{
         return true;
     }
     @Override
-    public LastPostsDTO getPostOfVendorsFollowedByUser(int id, String order) {
+    public LastPostsDTO getPostOfVendorsFollowedByUser(Integer id, String order) {
         Optional<User> opt = this.userRepository.findById(id);
         if (opt.isEmpty()) throw new NotFoundException("No se encuentra el id buscado");
         User user = opt.get();
@@ -120,7 +115,7 @@ public class SellerServiceImpl implements ISellerService{
     }
 
     @Override
-    public FollowersCountDTO getCountFollowersOfSeller(int id){
+    public FollowersCountDTO getCountFollowersOfSeller(Integer id){
         Optional<Seller> seller = sellerRepository.findById(id);
         if(seller.isEmpty()) throw new NotFoundException("ID de usuario invalido");
         return new FollowersCountDTO(seller.get().getId(), seller.get().getName(), seller.get().getFollowers().size());

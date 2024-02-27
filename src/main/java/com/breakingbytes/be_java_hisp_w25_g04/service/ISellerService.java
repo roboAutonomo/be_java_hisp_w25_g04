@@ -9,7 +9,7 @@ import java.util.List;
 public interface ISellerService {
     void addPost(RequestPostDTO requestPostDTO);
     List<RequestPostDTO> findAllPosts();
-    Boolean quitFollower(String sellerId, String userId);
-    LastPostsDTO getPostOfVendorsFollowedByUser(int id, String order);
-    FollowersCountDTO getCountFollowersOfSeller(int id);
+    Boolean quitFollower(Integer sellerId, Integer userId);
+    LastPostsDTO getPostOfVendorsFollowedByUser(Integer id, String order);
+    FollowersCountDTO getCountFollowersOfSeller(Integer id);
 }

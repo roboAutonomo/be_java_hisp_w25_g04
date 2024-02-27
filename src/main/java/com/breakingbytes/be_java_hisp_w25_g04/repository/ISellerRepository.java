@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ISellerRepository {
     List<Seller> getSellers();
-    Optional<Seller> findById(int sellerId);
+    Optional<Seller> findById(Integer sellerId);
     void addFollower(Seller seller, User follower);
     void addPost(Post post, Seller seller);
     void setSellerFollowers(Integer sellerId, List<User> sellerFollowers);

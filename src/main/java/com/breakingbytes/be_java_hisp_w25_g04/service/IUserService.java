@@ -16,9 +16,9 @@ import java.util.List;
 
 public interface IUserService {
     
-    ResponseDTO unfollowUser(String userId, String userIdToUnfollow);
+    ResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow);
     List<User> findAll();
-    UserFollowersDTO getUsersFollowersOf(int userId, String order);
-    UserFollowedDTO getUsersFollowed(int userId, String order);
-    void follow(int userId, int userIdToFollow);
+    UserFollowersDTO getUsersFollowersOf(Integer userId, String order);
+    UserFollowedDTO getUsersFollowed(Integer userId, String order);
+    void follow(Integer userId, Integer userIdToFollow);
 }

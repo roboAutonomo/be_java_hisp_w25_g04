@@ -9,6 +9,6 @@ public interface IUserRepository {
 
     void setUserFollowings(Integer userId, List<Seller> userFollowings);
     List<User> findAll();
-    Optional<User> findById(int userId);
+    Optional<User> findById(Integer userId);
     void addFollowing(User user, Seller following);
 }

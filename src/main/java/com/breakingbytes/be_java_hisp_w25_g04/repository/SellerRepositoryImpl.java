@@ -5,6 +5,8 @@ import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
+
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -19,8 +21,8 @@ public class SellerRepositoryImpl implements ISellerRepository{
         seller.addFollower(follower);
     }
   
-    public Optional<Seller> findById(int sellerId) {
-        return DbMock.getInstance().getListOfSellers().stream().filter(s -> s.getId() == sellerId).findFirst();
+    public Optional<Seller> findById(Integer sellerId) {
+        return DbMock.getInstance().getListOfSellers().stream().filter(s -> Objects.equals(s.getId(), sellerId)).findFirst();
     }
 
     @Override
@@ -36,7 +38,7 @@ public class SellerRepositoryImpl implements ISellerRepository{
             .getInstance()
             .getListOfSellers()
             .stream()
-            .filter(s -> s.getId() == sellerId)
+            .filter(s -> Objects.equals(s.getId(), sellerId))
             .findFirst()
             .get()
             .setFollowers(sellerFollowers);
