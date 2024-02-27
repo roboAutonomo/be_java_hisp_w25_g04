@@ -1,21 +1,25 @@
-package com.breakingbytes.be_java_hisp_w25_g04.repository;
+package com.breakingbytes.be_java_hisp_w25_g04.utils;
+
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
+import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
+import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 
-import java.nio.channels.spi.SelectorProvider;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class DbMock {
-    private static DbMock dbMock;
+public class FactoryUsers {
+
+    private static FactoryUsers factoryUsers;
     private List<User> listOfUsers;
     private List<Seller> listOfSellers;
     private List<Post> listOfPost;
     private List<Product> listOfProduct;
-    private DbMock(){
+    private FactoryUsers(){
         this.listOfUsers = new ArrayList<>();
         User pepe = new User(); // ID: 1
         User carlos = new User(); // ID: 2
@@ -62,6 +66,12 @@ public class DbMock {
         return listOfUsers;
     }
 
+    public User getUserByName(String name) {
+        Optional<User> user = this.listOfUsers.stream().filter(u -> u.getName().equals(name)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
+
     public List<Seller> getListOfSellers() {
         return listOfSellers;
     }
@@ -74,11 +84,11 @@ public class DbMock {
         return listOfProduct;
     }
 
-    public static DbMock getInstance(){
-        if(dbMock == null){
-            dbMock = new DbMock();
-        }
-        return  dbMock;
+    public static FactoryUsers getInstance(){
+        if(factoryUsers == null) factoryUsers = new FactoryUsers();
+        return factoryUsers;
     }
+
+
 
 }

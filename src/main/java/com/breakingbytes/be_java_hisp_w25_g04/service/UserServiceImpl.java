@@ -95,7 +95,6 @@ public class UserServiceImpl implements IUserService {
         Optional<User> me = this.userRepository.findById(userId);
         Optional<Seller> seller = this.sellerRepository.findById(userId);
         User user;
-
         if(seller.isPresent()) user = seller.get();
         else if(me.isPresent()) user = me.get();
         else throw new NotFoundException("ID de usuario invalido");
