@@ -13,20 +13,20 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Post {
-    int postId;
-    int userId;
+    Integer postId;
+    Integer userId;
     LocalDate date;
     Product product;
-    int category;
-    double price;
-    static int count = 1;
+    Integer category;
+    Double price;
+    static Integer count = 1;
 
     public Post() {
         this.postId = count;
         count++;
     }
 
-    public Post(int userId, LocalDate date, Product product, int category, double price) {
+    public Post(Integer userId, LocalDate date, Product product, Integer category, Double price) {
         this.postId = count;
         this.userId = userId;
         this.date = date;

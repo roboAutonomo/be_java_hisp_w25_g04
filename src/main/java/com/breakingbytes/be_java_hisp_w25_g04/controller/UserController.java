@@ -7,6 +7,8 @@ import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -17,35 +19,35 @@ public class UserController {
         this.sellerService = sellerService;
     }
 
-    @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<?> unfollowUser(@PathVariable("userId") String userId,
-                                          @PathVariable("userIdToUnfollow") String userIdToUnfollow) {
-        sellerService.quitFollower(userIdToUnfollow, userId);
+    @PostMapping("/{user_id}/unfollow/{user_id_to_unfollow}")
+    public ResponseEntity<?> unfollowUser(@PathVariable("user_id") String user_id,
+                                          @PathVariable("user_id_to_unfollow") String user_id_to_unfollow) {
+        sellerService.quitFollower(user_id_to_unfollow, user_id);
         return ResponseEntity.ok()
-                .body(userService.unfollowUser(userId, userIdToUnfollow));
+                .body(userService.unfollowUser(user_id, user_id_to_unfollow));
     }
 
-    @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<?> getCountFollowers(@PathVariable int userId){
+    @GetMapping("/{user_id}/followers/count")
+    public ResponseEntity<?> getCountFollowers(@PathVariable int user_id){
         return ResponseEntity.ok()
-                .body(sellerService.getCountFollowersOfSeller(userId));
+                .body(sellerService.getCountFollowersOfSeller(user_id));
     }
 
-    @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<?> getUsersFollowersOf(@PathVariable int userId, @RequestParam(required = false, defaultValue = "") String order){
+    @GetMapping("/{user_id}/followers/list")
+    public ResponseEntity<?> getUsersFollowersOf(@PathVariable int user_id, @RequestParam(required = false, defaultValue = "") String order){
         return ResponseEntity.ok()
-                .body(userService.getUsersFollowersOf(userId, order));
+                .body(userService.getUsersFollowersOf(user_id, order));
     }
 
-    @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<?> getUsersFollowed(@PathVariable int userId, @RequestParam(required = false, defaultValue = "") String order){
+    @GetMapping("/{user_id}/followed/list")
+    public ResponseEntity<?> getUsersFollowed(@PathVariable int user_id, @RequestParam(required = false, defaultValue = "") String order){
         return ResponseEntity.ok()
-                .body(userService.getUsersFollowed(userId, order));
+                .body(userService.getUsersFollowed(user_id, order));
     }
 
-    @PostMapping("/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<?> followUser(@PathVariable("userId") int userId, @PathVariable("userIdToFollow") int userIdToFollow) {
-        userService.follow(userId, userIdToFollow);
+    @PostMapping("/{user_id}/follow/{user_id_to_follow}")
+    public ResponseEntity<?> followUser(@PathVariable("user_id") int user_id, @PathVariable("user_id_to_follow") int user_id_to_follow) {
+        userService.follow(user_id, user_id_to_follow);
         return ResponseEntity
                 .ok().build();
     }

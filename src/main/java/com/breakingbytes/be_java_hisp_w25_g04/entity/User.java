@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-    int id;
+    Integer id;
     String name;
     @JsonManagedReference
     List<Seller> following;

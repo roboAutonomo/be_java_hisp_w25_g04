@@ -16,7 +16,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserFollowedDTO {
     @JsonProperty("user_id")
-    int id;
+    Integer id;
     @JsonProperty("user_name")
     String name;
     List<UserDTO> followed;

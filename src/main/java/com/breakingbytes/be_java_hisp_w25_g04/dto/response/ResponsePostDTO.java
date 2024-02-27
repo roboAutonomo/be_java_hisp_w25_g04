@@ -15,13 +15,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ResponsePostDTO {
-    int userId; //Id of Seller
-    int postId; //Id of Post
+    Integer userId; //Id of Seller
+    Integer postId; //Id of Post
     @JsonFormat(pattern="dd-MM-yyyy")
     LocalDate date; //Format "01-05-2021"
     Product product;
-    int category;
-    double price;
+    Integer category;
+    Double price;
 
 
 }

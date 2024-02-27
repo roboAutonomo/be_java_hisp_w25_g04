@@ -7,6 +7,8 @@ import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -18,13 +20,13 @@ public class ProductController {
     @GetMapping("/followed/{userId}/list")
     public ResponseEntity<LastPostsDTO> getPostOfVendorsFollowedByUser(
             @PathVariable int userId,
-            @RequestParam(name = "order", required = false, defaultValue = "none") String order){
+            @RequestParam(name = "order", required = false, defaultValue = "") String order){
         return ResponseEntity.ok()
                 .body(this.sellerService.getPostOfVendorsFollowedByUser(userId, order));
     }
 
     @PostMapping("/post")
-    public ResponseEntity<?> addPost(@RequestBody RequestPostDTO requestPostDTO){
+    public ResponseEntity<?> addPost(@Valid @RequestBody RequestPostDTO requestPostDTO){
         sellerService.addPost(requestPostDTO);
         return ResponseEntity
                 .ok().build();

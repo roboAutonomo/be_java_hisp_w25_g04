@@ -10,6 +10,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 @Data
@@ -18,10 +22,17 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestPostDTO {
     @JsonProperty("user_id")
-    int userId;
+    @NotNull(message = "El  id no puede estar vacío.")
+    @Positive(message = "El id debe ser mayor a cero.")
+    Integer userId;
     @JsonDeserialize(using = LocalDateDeserializer.class)
+    @NotNull(message = "La fecha no puede estar vacía.")
     LocalDate date;
-    Product product;
-    int category;
-    double price;
+    @Valid
+    ProductDTO product; // TODO: Agregar validaciones
+    @NotNull(message = "El campo no puede estar vacío.")
+    Integer category;
+    @NotNull(message = "El campo no puede estar vacío.")
+    @Max(value = 10000000,message = "El precio máximo por producto es de 10.000.000")
+    Double price;
 }

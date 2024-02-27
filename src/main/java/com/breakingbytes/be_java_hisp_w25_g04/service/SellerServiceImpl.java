@@ -89,24 +89,36 @@ public class SellerServiceImpl implements ISellerService{
         if (opt.isEmpty()) throw new NotFoundException("No se encuentra el id buscado");
         User user = opt.get();
         List<ResponsePostDTO> posts = new ArrayList<>();
-        for (Seller s : user.getFollowing()){
-            for (Post p : s.getPosts()){
-                if(!p.getDate().isBefore(LocalDate.now().minusWeeks(2))){
+        for (Seller s : user.getFollowing()) {
+            for (Post p : s.getPosts()) {
+                if (!p.getDate().isBefore(LocalDate.now().minusWeeks(2))) {
                     ResponsePostDTO responsePostDTO = mapper.modelMapper().map(p, ResponsePostDTO.class);
                     responsePostDTO.setUserId(s.getId());
                     posts.add(responsePostDTO);
                 }
             }
         }
-        if(posts.isEmpty()) throw new NotFoundException("No hay publicaciones que cumplan con el requisito");
+        if (posts.isEmpty()) throw new NotFoundException("No hay publicaciones que cumplan con el requisito");
+        ordenarPostsPorFecha(posts, order); // ordena la lista q se manda
+        return new LastPostsDTO(user.getId(), posts);
 
-        switch (order){
+    }
+
+    /**
+     *
+     * @param posts = "Lista de posts DTO"
+     * @param order = "Ordenamiento de posts", pueden ser de tipo date_asc, "date_desc" y ""
+     */
+    private void ordenarPostsPorFecha (List<ResponsePostDTO> posts, String order) {
+        switch (order) {
             case "date_asc" -> posts.sort(Comparator.comparing(ResponsePostDTO::getDate));
             case "date_desc" -> posts.sort(Comparator.comparing(ResponsePostDTO::getDate).reversed());
-            //default case is already satisfied
-        };
-        return new LastPostsDTO(user.getId(), posts);
+            default -> {
+                if (!order.isEmpty()) throw new BadRequestException("El tipo de ordenamiento por fecha es incorrecto");
+            }
+        }
     }
+
     @Override
     public FollowersCountDTO getCountFollowersOfSeller(int id){
         Optional<Seller> seller = sellerRepository.findById(id);

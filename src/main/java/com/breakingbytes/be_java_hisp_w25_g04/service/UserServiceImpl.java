@@ -89,16 +89,7 @@ public class UserServiceImpl implements IUserService {
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
         List<UserDTO> followers = userFollowes.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
-        if(order.equals("name_asc")){
-            followers = followers.stream()
-                    .sorted(Comparator.comparing(UserDTO::getName))
-                    .collect(Collectors.toList());
-        }else if(order.equals("name_desc")){
-            followers = followers.stream()
-                    .sorted(Comparator.comparing(UserDTO::getName, Comparator.reverseOrder()))
-                    .collect(Collectors.toList());
-        }
-        return new UserFollowersDTO(user.get().getId(), user.get().getName(), followers);
+        return new UserFollowersDTO(user.get().getId(), user.get().getName(), ordenarUsuariosPorNombre(followers, order));
     }
 
     @Override
@@ -110,21 +101,24 @@ public class UserServiceImpl implements IUserService {
         if(!seller.isEmpty()) user = seller.get();
         else if(!me.isEmpty()) user = me.get();
         else throw new NotFoundException("ID de usuario invalido");
-
         List<Seller> userFolloweds = user.getFollowing();
         if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.getId() + " no sigue a vendedores");
         List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
+        return new UserFollowedDTO(user.getId(), user.getName(), ordenarUsuariosPorNombre(followed, order));
+    }
+
+    private List<UserDTO> ordenarUsuariosPorNombre (List<UserDTO> users, String order) {
         if (order.equals("name_asc")){
-            followed = followed.stream()
+            users = users.stream()
                     .sorted(Comparator.comparing(UserDTO::getName))
                     .collect(Collectors.toList());
         }else if(order.equals("name_desc")){
-            followed = followed.stream()
-                    .sorted(Comparator.comparing(UserDTO::getName,
-                            Comparator.reverseOrder()))
+            users = users.stream()
+                    .sorted(Comparator.comparing(UserDTO::getName, Comparator.reverseOrder()))
                     .collect(Collectors.toList());
         }
-        return new UserFollowedDTO(user.getId(), user.getName(), followed);
+        else if(!order.isEmpty()) throw new BadRequestException("El tipo de ordenamiento alfabetico es incorrecto");
+        return users;
     }
 
     @Override
