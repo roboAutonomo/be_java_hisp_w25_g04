@@ -91,7 +91,7 @@ public class SellerServiceTests {
 
     @Test
     @DisplayName("T-0008 Posts fecha valida Ordenados Por Fecha Ascendente")
-    void postOrderedByAscDateTestOk() {
+    void postValidDatesOrderedByAscDateTestOk() {
         //ARRANGE
         User user = FactoryUsers.getInstance().getListOfUsers().get(0); //Primer usuario con Id 1
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
@@ -204,8 +204,8 @@ public class SellerServiceTests {
     }
 
     @Test
-    @DisplayName("T-0005: Correcto ordenamiento descendente (date_desc)")
-    public void orderByDateAScOkTest() {
+    @DisplayName("T-0005: Correcto ordenamiento ascendente")
+    public void orderByDateAscOkTest() {
         Integer userId = 1;
         String order = "date_asc";
         User userExpected = FactoryUsers.getInstance().getUserById(userId);
