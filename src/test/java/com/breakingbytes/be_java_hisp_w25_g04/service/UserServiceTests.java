@@ -6,7 +6,6 @@ import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,13 +37,10 @@ public class UserServiceTests {
         Seller seller = FactoryUsers.getSellerThree();
         List<UserDTO> expectedSortedList= FactoryUsers.getSortedListAsc();
 
-        when(sellerRepository.findById(3)).thenReturn(Optional.of(seller));
-
+        when(sellerRepository.findById(idUser)).thenReturn(Optional.of(seller));
         List<UserDTO> usersResult = userService.getUsersFollowersOf(idUser, order).getFollowers();
 
-        Assertions.assertEquals(expectedSortedList.get(0), usersResult.get(0));
-        Assertions.assertEquals(expectedSortedList.get(1), usersResult.get(1));
-        Assertions.assertEquals(expectedSortedList.get(2), usersResult.get(2));
+        assertThat(expectedSortedList).isEqualTo(usersResult);
     }
 
     @Test
@@ -54,13 +51,10 @@ public class UserServiceTests {
         Seller seller = FactoryUsers.getSellerThree();
         List<UserDTO> expectedSortedList= FactoryUsers.getSortedListDesc();
 
-        when(sellerRepository.findById(3)).thenReturn(Optional.of(seller));
-
+        when(sellerRepository.findById(idUser)).thenReturn(Optional.of(seller));
         List<UserDTO> usersResult = userService.getUsersFollowersOf(idUser, order).getFollowers();
 
-        Assertions.assertEquals(expectedSortedList.get(0), usersResult.get(0));
-        Assertions.assertEquals(expectedSortedList.get(1), usersResult.get(1));
-        Assertions.assertEquals(expectedSortedList.get(2), usersResult.get(2));
+        assertThat(expectedSortedList).isEqualTo(usersResult);
     }
 
     @Test
@@ -76,9 +70,7 @@ public class UserServiceTests {
 
         List<UserDTO> usersResult = userService.getUsersFollowed(idUser, order).getFollowed();
 
-        Assertions.assertEquals(expectedSortedList.get(0), usersResult.get(0));
-        Assertions.assertEquals(expectedSortedList.get(1), usersResult.get(1));
-        Assertions.assertEquals(expectedSortedList.get(2), usersResult.get(2));
+        assertThat(expectedSortedList).isEqualTo(usersResult);
     }
 
     @Test
@@ -86,7 +78,6 @@ public class UserServiceTests {
     public void testSortedListFollowedsDesc(){
         Integer idUser = 2;
         String order = "name_desc";
-
         User user = FactoryUsers.getUserTwo();
         List<UserDTO> expectedSortedList= FactoryUsers.getSortedListDesc();
 
@@ -95,8 +86,6 @@ public class UserServiceTests {
 
         List<UserDTO> usersResult = userService.getUsersFollowed(idUser, order).getFollowed();
 
-        Assertions.assertEquals(expectedSortedList.get(0), usersResult.get(0));
-        Assertions.assertEquals(expectedSortedList.get(1), usersResult.get(1));
-        Assertions.assertEquals(expectedSortedList.get(2), usersResult.get(2));
+        assertThat(expectedSortedList).isEqualTo(usersResult);
     }
 }

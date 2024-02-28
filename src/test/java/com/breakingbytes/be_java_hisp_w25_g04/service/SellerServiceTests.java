@@ -29,7 +29,7 @@ public class SellerServiceTests {
         Seller seller = FactoryUsers.getSellerThree();
         Integer expectedCount= 3;
 
-        when(sellerRepository.findById(3)).thenReturn(Optional.of(seller));
+        when(sellerRepository.findById(idUser)).thenReturn(Optional.of(seller));
         Integer countFollowersResult = sellerService.getCountFollowersOfSeller(idUser).getFollowers_count();
 
         Assertions.assertEquals(expectedCount, countFollowersResult);
