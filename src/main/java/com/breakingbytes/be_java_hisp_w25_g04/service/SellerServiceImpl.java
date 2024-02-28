@@ -16,6 +16,10 @@ import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
 
 import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NamingConventions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,22 +28,28 @@ import java.util.*;
 @Service
 public class SellerServiceImpl implements ISellerService{
     ISellerRepository sellerRepository;
-    Mapper mapper;
+    //No llama al constructor cuando se ejecuta el test y viene siempre null
+    ModelMapper mapper = new ModelMapper();
     IPostRepository postRepository;
     IProductRepository productRepository;
     IUserRepository userRepository;
 
-    public SellerServiceImpl(ISellerRepository sellerRepository, Mapper mapper, IPostRepository postRepository, IProductRepository productRepository, IUserRepository iUserRepository) {
+    public SellerServiceImpl(ISellerRepository sellerRepository, IPostRepository postRepository, IProductRepository productRepository, IUserRepository iUserRepository) {
         this.sellerRepository = sellerRepository;
-        this.mapper = mapper;
         this.postRepository = postRepository;
         this.productRepository = productRepository;
         this.userRepository = iUserRepository;
+
+        //Configuracion del mapper
+        this.mapper.getConfiguration()
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
     }
 
     @Override
     public void addPost(RequestPostDTO requestPostDTO) {
-        Post post = mapper.modelMapper().map(requestPostDTO, Post.class);
+        Post post = mapper.map(requestPostDTO, Post.class);
         Optional<Seller> seller = sellerRepository.findById(requestPostDTO.getUserId());
         if (seller.isEmpty()) throw new NotFoundException("No se ha encontrado un vendedor con ese ID");
         Optional<Product> product = productRepository.findAll().stream()
@@ -52,7 +62,7 @@ public class SellerServiceImpl implements ISellerService{
     @Override
     public List<RequestPostDTO> findAllPosts() {
         return postRepository.findAll()
-                .stream().map(p -> mapper.modelMapper().map(p, RequestPostDTO.class)).toList();
+                .stream().map(p -> mapper.map(p, RequestPostDTO.class)).toList();
     }
 
     public Boolean quitFollower(Integer sellerIdInt, Integer userIdInt) {
@@ -87,7 +97,7 @@ public class SellerServiceImpl implements ISellerService{
         for (Seller s : user.getFollowing()) {
             for (Post p : s.getPosts()) {
                 if (!p.getDate().isBefore(LocalDate.now().minusWeeks(2))) {
-                    ResponsePostDTO responsePostDTO = mapper.modelMapper().map(p, ResponsePostDTO.class);
+                    ResponsePostDTO responsePostDTO = mapper.map(p, ResponsePostDTO.class);
                     responsePostDTO.setUserId(s.getId());
                     posts.add(responsePostDTO);
                 }

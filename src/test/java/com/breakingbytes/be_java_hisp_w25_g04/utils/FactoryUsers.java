@@ -1,11 +1,11 @@
 package com.breakingbytes.be_java_hisp_w25_g04.utils;
 
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponsePostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -89,6 +89,45 @@ public class FactoryUsers {
         return factoryUsers;
     }
 
+    public List<Post> getPostsDateDesc(){
+        Post p1 = new Post(3, LocalDate.of(2024,2,28), new Product(), 100, 1500.0);
+        p1.setPostId(3);
+        Post p2 = new Post(3, LocalDate.of(2024,2,20), new Product(), 100, 1500.0);
+        p2.setPostId(2);
+        Post p3 = new Post(3, LocalDate.of(2024,2,15), new Product(), 100, 1500.0);
+        p3.setPostId(1);
+      return List.of(p1,p2,p3);
+    }
+
+    public List<Post> getPostsWithoutOrder(){
+        Post p1 = new Post(3, LocalDate.of(2024,2,20), new Product(), 100, 1500.0);
+        p1.setPostId(2);
+        Post p2 = new Post(3, LocalDate.of(2024,2,28), new Product(), 100, 1500.0);
+        p2.setPostId(3);
+        Post p3 = new Post(3, LocalDate.of(2024,2,15), new Product(), 100, 1500.0);
+        p3.setPostId(1);
+        return List.of(p1,p2,p3);
+    }
+
+    public List<Post> getPostsDateAsc(){
+        Post p1 = new Post(3, LocalDate.of(2024,2,15), new Product(), 100, 1500.0);
+        p1.setPostId(1);
+        Post p2 = new Post(3, LocalDate.of(2024,2,20), new Product(), 100, 1500.0);
+        p2.setPostId(2);
+        Post p3 = new Post(3, LocalDate.of(2024,2,28), new Product(), 100, 1500.0);
+        p3.setPostId(3);
+        return List.of(p1,p2,p3);
+    }
+
+    public List<ResponsePostDTO> convertPostToResponsePostDTO(List<Post> posts){
+        return posts.stream().map(p ->
+                new ResponsePostDTO(p.getUserId(),
+                        p.getPostId(),
+                        p.getDate(),
+                        p.getProduct(),
+                        p.getCategory(),
+                        p.getPrice())).toList();
+    }
 
 
 }
