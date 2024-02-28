@@ -9,6 +9,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,33 +91,21 @@ public class FactoryUsers {
     }
 
     public List<Post> getPostsDateDesc(){
-        Post p1 = new Post(3, LocalDate.of(2024,2,28), new Product(), 100, 1500.0);
-        p1.setPostId(3);
-        Post p2 = new Post(3, LocalDate.of(2024,2,20), new Product(), 100, 1500.0);
-        p2.setPostId(2);
-        Post p3 = new Post(3, LocalDate.of(2024,2,15), new Product(), 100, 1500.0);
-        p3.setPostId(1);
-      return List.of(p1,p2,p3);
+        return this.getPostsWithoutOrder().stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
     }
 
     public List<Post> getPostsWithoutOrder(){
-        Post p1 = new Post(3, LocalDate.of(2024,2,20), new Product(), 100, 1500.0);
+        Post p1 = new Post(3, LocalDate.now().minusWeeks(1), new Product(), 100, 1500.0);
         p1.setPostId(2);
-        Post p2 = new Post(3, LocalDate.of(2024,2,28), new Product(), 100, 1500.0);
+        Post p2 = new Post(3, LocalDate.now(), new Product(), 100, 1500.0);
         p2.setPostId(3);
-        Post p3 = new Post(3, LocalDate.of(2024,2,15), new Product(), 100, 1500.0);
+        Post p3 = new Post(3, LocalDate.now().minusDays(5), new Product(), 100, 1500.0);
         p3.setPostId(1);
-        return List.of(p1,p2,p3);
+        return new ArrayList<>(List.of(p1,p2,p3));
     }
 
     public List<Post> getPostsDateAsc(){
-        Post p1 = new Post(3, LocalDate.of(2024,2,15), new Product(), 100, 1500.0);
-        p1.setPostId(1);
-        Post p2 = new Post(3, LocalDate.of(2024,2,20), new Product(), 100, 1500.0);
-        p2.setPostId(2);
-        Post p3 = new Post(3, LocalDate.of(2024,2,28), new Product(), 100, 1500.0);
-        p3.setPostId(3);
-        return List.of(p1,p2,p3);
+        return this.getPostsWithoutOrder().stream().sorted(Comparator.comparing(Post::getDate)).toList();
     }
 
     public List<ResponsePostDTO> convertPostToResponsePostDTO(List<Post> posts){

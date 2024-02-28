@@ -38,7 +38,10 @@ public class SellerServiceTests {
     void postOrderedByAscDateTestOk() {
         //ARRANGE
         String orderParam = "date_asc";
-        User user = FactoryUsers.getInstance().getListOfUsers().get(0); //Primer usuario con Id 1
+        User user = new User();
+        user.setId(1);
+        user.setFollowing(List.of(new Seller()));
+        user.getFollowing().get(0).setId(3);
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
 
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
@@ -59,6 +62,7 @@ public class SellerServiceTests {
         //ARRANGE
         String orderParam = "date_desc";
         User user = new User();
+        user.setId(1);
         user.setFollowing(List.of(new Seller()));
         user.getFollowing().get(0).setId(3);
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
