@@ -152,8 +152,6 @@ public class FactoryUsers { // No es la base de dato
         return new LastPostsDTO(pepe.getId(), postsDto);
     }
   
-    }
-  
     public static Seller getSellerThree(){
         Seller seller = new Seller();
         seller.setId(3);

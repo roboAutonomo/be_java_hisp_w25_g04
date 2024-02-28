@@ -46,7 +46,8 @@ import java.util.Optional;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
@@ -111,7 +112,7 @@ public class UserServiceTests {
         // Act
         when(sellerRepository.findById(idUserParam)).thenReturn(Optional.of(userExpected));
         // Assert
-        Assertions.assertThrows(BadRequestException.class, () -> userService.getUsersFollowersOf(idUserParam, orderParam));
+        assertThrows(BadRequestException.class, () -> userService.getUsersFollowersOf(idUserParam, orderParam));
     }
 
     // ------------ Test para getUsersFollowed
@@ -172,7 +173,7 @@ public class UserServiceTests {
         when(userRepository.findById(idUserParam)).thenReturn(Optional.of(userExpected));
         when(sellerRepository.findById(idUserParam)).thenReturn(Optional.empty());
         // Assert
-        Assertions.assertThrows(BadRequestException.class, () -> userService.getUsersFollowed(idUserParam, orderParam));
+        assertThrows(BadRequestException.class, () -> userService.getUsersFollowed(idUserParam, orderParam));
     }
 
 
