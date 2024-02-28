@@ -31,7 +31,7 @@ public class SellerServiceImpl implements ISellerService{
 
     public SellerServiceImpl(ISellerRepository sellerRepository, Mapper mapper, IPostRepository postRepository, IProductRepository productRepository, IUserRepository iUserRepository) {
         this.sellerRepository = sellerRepository;
-        this.mapper = mapper;
+        this.mapper = new Mapper();
         this.postRepository = postRepository;
         this.productRepository = productRepository;
         this.userRepository = iUserRepository;
