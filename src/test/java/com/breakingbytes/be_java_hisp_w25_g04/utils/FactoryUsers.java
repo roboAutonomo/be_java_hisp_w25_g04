@@ -1,11 +1,9 @@
 package com.breakingbytes.be_java_hisp_w25_g04.utils;
-
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -85,11 +83,19 @@ public class FactoryUsers { // No es la base de dato
         return user;
     }
 
+    public Seller getSellerByName(String name) {
+        Optional<Seller> user = this.listOfSellers.stream().filter(u -> u.getName().equals(name)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
+
+
     public User getUserById(Integer id) {
         Optional<User> user = this.listOfUsers.stream().filter(u -> u.getId().equals(id)).findFirst();
         if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
         return user.get();
     }
+
     public List<Seller> getListOfSellers() {
         return listOfSellers;
     }
