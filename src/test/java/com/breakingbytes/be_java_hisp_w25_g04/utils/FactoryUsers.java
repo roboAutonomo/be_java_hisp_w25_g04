@@ -72,8 +72,19 @@ public class FactoryUsers { // No es la base de dato
         return user.get();
     }
 
+    public User getUserById(Integer id) {
+        Optional<User> user = this.listOfUsers.stream().filter(u -> u.getId().equals(id)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
     public List<Seller> getListOfSellers() {
         return listOfSellers;
+    }
+
+    public User getSellerById(Integer id) {
+        Optional<Seller> seller = this.listOfSellers.stream().filter(u -> u.getId().equals(id)).findFirst();
+        if(seller.isEmpty()) throw new NotFoundException("No se encontró al vendedor");
+        return seller.get();
     }
 
     public List<Post> getListOfPost() {
