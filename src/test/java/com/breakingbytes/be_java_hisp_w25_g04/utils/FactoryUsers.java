@@ -10,6 +10,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class FactoryUsers { // No es la base de dato
@@ -71,6 +72,18 @@ public class FactoryUsers { // No es la base de dato
         if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
         return user.get();
     }
+    public Seller createSeller(Integer id){
+        Seller seller = new Seller();
+        seller.setId(id);
+        seller.setName("Matias");
+        return seller;
+    }
+    public User createUser(Integer id){
+        User user = new User();
+        user.setId(id);
+        user.setName("Gabriel");
+        return user;
+    }
 
     public User getUserById(Integer id) {
         Optional<User> user = this.listOfUsers.stream().filter(u -> u.getId().equals(id)).findFirst();
@@ -99,5 +112,4 @@ public class FactoryUsers { // No es la base de dato
         if(factoryUsers == null) factoryUsers = new FactoryUsers();
         return factoryUsers;
     }
-
 }
