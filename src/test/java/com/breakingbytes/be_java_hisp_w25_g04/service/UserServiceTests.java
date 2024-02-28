@@ -35,7 +35,7 @@ public class UserServiceTests {
     UserServiceImpl userService;
 
     @Test
-    @DisplayName("T-0001 followTestOk")
+    @DisplayName("T-0001: Permite continuar con normalidad.")
     public void followTestOk() {
         // arrange
         Integer userId = 1;
@@ -61,7 +61,7 @@ public class UserServiceTests {
     }
 
     @Test
-    @DisplayName("T-0001 followTestUserNotFound")
+    @DisplayName("T-0001: Notifica la no existencia del usuario mediante una excepción.")
     public void followTestUserNotFound() {
         // arrange
         Integer userId = 1;
@@ -81,7 +81,7 @@ public class UserServiceTests {
     }
 
     @Test
-    @DisplayName("T-0001 followTestUserNotFound")
+    @DisplayName("T-0001: Notifica la no existencia del vendedor mediante una excepción.")
     public void followTestSellerNotFound() {
         // arrange
         Integer userId = 1;
