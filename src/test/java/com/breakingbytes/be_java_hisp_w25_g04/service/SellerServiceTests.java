@@ -26,7 +26,7 @@ public class SellerServiceTests {
     @DisplayName("T-0007 Verifica que la cantidad de seguidores de un determinado usuario sea correcta.")
     public void testGetCountFollowersOfSeller(){
         Integer idUser = 3;
-        Seller seller = FactoryUsers.getSellerById(idUser);
+        Seller seller = FactoryUsers.getSellerThree();
         Integer expectedCount= 3;
 
         when(sellerRepository.findById(3)).thenReturn(Optional.of(seller));

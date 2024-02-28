@@ -90,9 +90,9 @@ public class FactoryUsers { // No es la base de dato
         return factoryUsers;
     }
 
-    public static Seller getSellerById(Integer idUser){
+    public static Seller getSellerThree(){
         Seller seller = new Seller();
-        seller.setId(idUser);
+        seller.setId(3);
         seller.setName("Juan");
         seller.setFollowers(List.of(
                 new User(1,"Martin",null),
@@ -118,10 +118,10 @@ public class FactoryUsers { // No es la base de dato
         );
     }
 
-    public static User getUserById(Integer idUser){
+    public static User getUserTwo(){
         User user = new User();
-        user.setId(idUser);
-        user.setName("Luis");
+        user.setId(2);
+        user.setName("Carlos");
         user.setFollowing(List.of(
                 new Seller(1, "Martin", null,null, null),
                 new Seller(2, "Ana", null,null, null),
