@@ -8,6 +8,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class FactoryUsers { // No es la base de dato
@@ -69,6 +70,18 @@ public class FactoryUsers { // No es la base de dato
         if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
         return user.get();
     }
+    public Seller createSeller(Integer id){
+        Seller seller = new Seller();
+        seller.setId(id);
+        seller.setName("Matias");
+        return seller;
+    }
+    public User createUser(Integer id){
+        User user = new User();
+        user.setId(id);
+        user.setName("Gabriel");
+        return user;
+    }
 
     public Seller getSellerByName(String name) {
         Optional<Seller> user = this.listOfSellers.stream().filter(u -> u.getName().equals(name)).findFirst();
@@ -77,9 +90,20 @@ public class FactoryUsers { // No es la base de dato
     }
 
 
+    public User getUserById(Integer id) {
+        Optional<User> user = this.listOfUsers.stream().filter(u -> u.getId().equals(id)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
 
     public List<Seller> getListOfSellers() {
         return listOfSellers;
+    }
+
+    public User getSellerById(Integer id) {
+        Optional<Seller> seller = this.listOfSellers.stream().filter(u -> u.getId().equals(id)).findFirst();
+        if(seller.isEmpty()) throw new NotFoundException("No se encontró al vendedor");
+        return seller.get();
     }
 
     public List<Post> getListOfPost() {
@@ -94,5 +118,4 @@ public class FactoryUsers { // No es la base de dato
         if(factoryUsers == null) factoryUsers = new FactoryUsers();
         return factoryUsers;
     }
-
 }
