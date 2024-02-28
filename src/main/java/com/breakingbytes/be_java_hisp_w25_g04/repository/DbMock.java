@@ -56,7 +56,6 @@ public class DbMock {
         robert.getPosts().add(post3);
         juan.getPosts().add(post4);
         juan.getPosts().add(post5);
-
     }
 
     public List<User> getListOfUsers() {
