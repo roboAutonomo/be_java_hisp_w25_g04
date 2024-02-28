@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FactoryUsers {
+public class FactoryUsers { // No es la base de dato
 
     private static FactoryUsers factoryUsers;
     private List<User> listOfUsers;
