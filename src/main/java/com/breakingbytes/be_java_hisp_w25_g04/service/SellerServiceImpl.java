@@ -28,7 +28,6 @@ import java.util.*;
 @Service
 public class SellerServiceImpl implements ISellerService{
     ISellerRepository sellerRepository;
-    //No llama al constructor cuando se ejecuta el test y viene siempre null
     ModelMapper mapper = new ModelMapper();
     IPostRepository postRepository;
     IProductRepository productRepository;
@@ -106,7 +105,6 @@ public class SellerServiceImpl implements ISellerService{
         if (posts.isEmpty()) throw new NotFoundException("No hay publicaciones que cumplan con el requisito");
         ordenarPostsPorFecha(posts, order); // ordena la lista q se manda
         return new LastPostsDTO(user.getId(), posts);
-
     }
 
     /**
