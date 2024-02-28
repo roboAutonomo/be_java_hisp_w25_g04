@@ -1,21 +1,26 @@
-package com.breakingbytes.be_java_hisp_w25_g04.repository;
+package com.breakingbytes.be_java_hisp_w25_g04.utils;
+
+import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
+import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
+import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 
-import java.nio.channels.spi.SelectorProvider;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class DbMock {
-    private static DbMock dbMock;
+public class FactoryUsers { // No es la base de dato
+
+    private static FactoryUsers factoryUsers;
     private List<User> listOfUsers;
     private List<Seller> listOfSellers;
     private List<Post> listOfPost;
     private List<Product> listOfProduct;
-    private DbMock(){
+    private FactoryUsers(){
         this.listOfUsers = new ArrayList<>();
         User pepe = new User(); // ID: 1
         User carlos = new User(); // ID: 2
@@ -62,6 +67,12 @@ public class DbMock {
         return listOfUsers;
     }
 
+    public User getUserByName(String name) {
+        Optional<User> user = this.listOfUsers.stream().filter(u -> u.getName().equals(name)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
+
     public List<Seller> getListOfSellers() {
         return listOfSellers;
     }
@@ -74,11 +85,49 @@ public class DbMock {
         return listOfProduct;
     }
 
-    public static DbMock getInstance(){
-        if(dbMock == null){
-            dbMock = new DbMock();
-        }
-        return  dbMock;
+    public static FactoryUsers getInstance(){
+        if(factoryUsers == null) factoryUsers = new FactoryUsers();
+        return factoryUsers;
+    }
+
+    public static Seller getSellerById(Integer idUser){
+        Seller seller = new Seller();
+        seller.setId(idUser);
+        seller.setName("Juan");
+        seller.setFollowers(List.of(
+                new User(1,"Martin",null),
+                new User(2,"Ana",null),
+                new User(3,"Camila",null)
+        ));
+        return seller;
+    }
+
+    public static List<UserDTO> getSortedListAsc(){
+        return List.of(
+                new UserDTO(2,"Ana"),
+                new UserDTO(3,"Camila"),
+                new UserDTO(1,"Martin")
+        );
+    }
+
+    public static List<UserDTO> getSortedListDesc(){
+        return List.of(
+                new UserDTO(1,"Martin"),
+                new UserDTO(3,"Camila"),
+                new UserDTO(2,"Ana")
+        );
+    }
+
+    public static User getUserById(Integer idUser){
+        User user = new User();
+        user.setId(idUser);
+        user.setName("Luis");
+        user.setFollowing(List.of(
+                new Seller(1, "Martin", null,null, null),
+                new Seller(2, "Ana", null,null, null),
+                new Seller(3, "Camila", null,null, null)
+        ));
+        return user;
     }
 
 }

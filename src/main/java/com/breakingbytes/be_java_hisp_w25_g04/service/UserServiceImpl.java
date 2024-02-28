@@ -13,6 +13,10 @@ import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NamingConventions;
 import org.springframework.stereotype.Service;
 
 
@@ -38,12 +42,15 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
     IUserRepository userRepository;
     ISellerRepository sellerRepository;
-    Mapper mapper;
+    ModelMapper mapper = new ModelMapper(); // ?????
 
-    public UserServiceImpl(IUserRepository userRepository, ISellerRepository sellerRepository, Mapper mapper) {
+    public UserServiceImpl(IUserRepository userRepository, ISellerRepository sellerRepository) {
         this.userRepository = userRepository;
         this.sellerRepository = sellerRepository;
-        this.mapper = mapper;
+        this.mapper.getConfiguration()
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
     }
 
     @Override
@@ -87,8 +94,7 @@ public class UserServiceImpl implements IUserService {
 
         List<User> userFollowes = user.get().getFollowers();
         if(userFollowes.isEmpty()) throw new NotFoundException("El usuario con id: " + user.get().getId() + " no tiene seguidores");
-
-        List<UserDTO> followers = userFollowes.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
+        List<UserDTO> followers = userFollowes.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
         return new UserFollowersDTO(user.get().getId(), user.get().getName(), ordenarUsuariosPorNombre(followers, order));
     }
 
@@ -97,13 +103,12 @@ public class UserServiceImpl implements IUserService {
         Optional<User> me = this.userRepository.findById(userId);
         Optional<Seller> seller = this.sellerRepository.findById(userId);
         User user;
-
         if(seller.isPresent()) user = seller.get();
         else if(me.isPresent()) user = me.get();
         else throw new NotFoundException("ID de usuario invalido");
         List<Seller> userFolloweds = user.getFollowing();
         if(userFolloweds.isEmpty()) throw new NotFoundException("El usuario con id: " + user.getId() + " no sigue a vendedores");
-        List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.modelMapper().map(u, UserDTO.class)).toList();
+        List<UserDTO> followed = userFolloweds.stream().map(u -> mapper.map(u, UserDTO.class)).toList();
         return new UserFollowedDTO(user.getId(), user.getName(), ordenarUsuariosPorNombre(followed, order));
     }
 
