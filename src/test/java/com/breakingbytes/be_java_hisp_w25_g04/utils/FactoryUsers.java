@@ -1,4 +1,7 @@
 package com.breakingbytes.be_java_hisp_w25_g04.utils;
+
+import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
+
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
@@ -118,4 +121,45 @@ public class FactoryUsers { // No es la base de dato
         if(factoryUsers == null) factoryUsers = new FactoryUsers();
         return factoryUsers;
     }
+
+    public static Seller getSellerThree(){
+        Seller seller = new Seller();
+        seller.setId(3);
+        seller.setName("Juan");
+        seller.setFollowers(List.of(
+                new User(1,"Martin",null),
+                new User(2,"Ana",null),
+                new User(3,"Camila",null)
+        ));
+        return seller;
+    }
+
+    public static List<UserDTO> getSortedListAsc(){
+        return List.of(
+                new UserDTO(2,"Ana"),
+                new UserDTO(3,"Camila"),
+                new UserDTO(1,"Martin")
+        );
+    }
+
+    public static List<UserDTO> getSortedListDesc(){
+        return List.of(
+                new UserDTO(1,"Martin"),
+                new UserDTO(3,"Camila"),
+                new UserDTO(2,"Ana")
+        );
+    }
+
+    public static User getUserTwo(){
+        User user = new User();
+        user.setId(2);
+        user.setName("Carlos");
+        user.setFollowing(List.of(
+                new Seller(1, "Martin", null,null, null),
+                new Seller(2, "Ana", null,null, null),
+                new Seller(3, "Camila", null,null, null)
+        ));
+        return user;
+    }
+
 }
