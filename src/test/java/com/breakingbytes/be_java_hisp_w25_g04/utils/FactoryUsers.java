@@ -1,12 +1,21 @@
 package com.breakingbytes.be_java_hisp_w25_g04.utils;
 
+
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponsePostDTO;
+
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
+
 
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
+
+import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
+import org.modelmapper.ModelMapper;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +30,7 @@ public class FactoryUsers { // No es la base de dato
     private List<Seller> listOfSellers;
     private List<Post> listOfPost;
     private List<Product> listOfProduct;
+    private ModelMapper mapper;
     private FactoryUsers(){
         this.listOfUsers = new ArrayList<>();
         User pepe = new User(); // ID: 1
@@ -62,6 +72,8 @@ public class FactoryUsers { // No es la base de dato
         robert.getPosts().add(post3);
         juan.getPosts().add(post4);
         juan.getPosts().add(post5);
+
+        mapper = new ModelMapper();
     }
 
     public List<User> getListOfUsers() {
@@ -99,6 +111,7 @@ public class FactoryUsers { // No es la base de dato
         return user.get();
     }
 
+
     public List<Seller> getListOfSellers() {
         return listOfSellers;
     }
@@ -122,6 +135,25 @@ public class FactoryUsers { // No es la base de dato
         return factoryUsers;
     }
 
+
+    public LastPostsDTO generateLastPostDto() {
+        User pepe = listOfUsers.get(0);
+      List<ResponsePostDTO> postsDto = new ArrayList<>();
+        for (Seller s : pepe.getFollowing()) {
+            for (Post p : s.getPosts()) {
+                if (!p.getDate().isBefore(LocalDate.now().minusWeeks(2))) {
+                    ResponsePostDTO responsePostDTO = mapper.map(p, ResponsePostDTO.class);
+                    responsePostDTO.setUserId(s.getId());
+                    postsDto.add(responsePostDTO);
+                }
+            }
+        }
+
+        return new LastPostsDTO(pepe.getId(), postsDto);
+    }
+  
+    }
+  
     public static Seller getSellerThree(){
         Seller seller = new Seller();
         seller.setId(3);
@@ -162,4 +194,5 @@ public class FactoryUsers { // No es la base de dato
         return user;
     }
 
+        
 }
