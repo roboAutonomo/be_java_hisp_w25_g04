@@ -1,25 +1,9 @@
 package com.breakingbytes.be_java_hisp_w25_g04.service;
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
-
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-
+import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponseDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
-
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponseDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
-import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
-
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.BadRequestException;
@@ -27,10 +11,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
 import org.junit.jupiter.api.Assertions;
-
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,12 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.springframework.boot.test.context.SpringBootTest;
-
-
 import java.util.List;
 import java.util.Optional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

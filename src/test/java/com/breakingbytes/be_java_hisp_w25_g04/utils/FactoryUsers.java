@@ -78,15 +78,20 @@ public class FactoryUsers { // No es la base de dato
         mapper = new ModelMapper();
     }
 
-    public List<User> getListOfUsers() {
-        return listOfUsers;
-    }
+    public List<User> getListOfUsers() { return listOfUsers; }
 
     public User getUserByName(String name) {
         Optional<User> user = this.listOfUsers.stream().filter(u -> u.getName().equals(name)).findFirst();
         if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
         return user.get();
     }
+
+    public Seller getSellerByName(String name) {
+        Optional<Seller> user = this.listOfSellers.stream().filter(u -> u.getName().equals(name)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
+
     public Seller createSeller(Integer id){
         Seller seller = new Seller();
         seller.setId(id);
@@ -100,36 +105,16 @@ public class FactoryUsers { // No es la base de dato
         return user;
     }
 
-    public Seller getSellerByName(String name) {
-        Optional<Seller> user = this.listOfSellers.stream().filter(u -> u.getName().equals(name)).findFirst();
-        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
-        return user.get();
-    }
-
-
     public User getUserById(Integer id) {
         Optional<User> user = this.listOfUsers.stream().filter(u -> u.getId().equals(id)).findFirst();
         if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
         return user.get();
     }
 
-
-    public List<Seller> getListOfSellers() {
-        return listOfSellers;
-    }
-
     public User getSellerById(Integer id) {
         Optional<Seller> seller = this.listOfSellers.stream().filter(u -> u.getId().equals(id)).findFirst();
         if(seller.isEmpty()) throw new NotFoundException("No se encontró al vendedor");
         return seller.get();
-    }
-
-    public List<Post> getListOfPost() {
-        return listOfPost;
-    }
-
-    public List<Product> getListOfProduct() {
-        return listOfProduct;
     }
 
     public static FactoryUsers getInstance(){
@@ -140,7 +125,6 @@ public class FactoryUsers { // No es la base de dato
     public List<Post> getPostsDateDesc(){
         return this.getPostsWithoutOrder().stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
     }
-
 
     public List<Post> getPostsWithoutOrder(){
         Post p1 = new Post(3, LocalDate.now().minusWeeks(1), new Product(), 100, 1500.0);
@@ -168,7 +152,7 @@ public class FactoryUsers { // No es la base de dato
 
     public LastPostsDTO generateLastPostDto() {
         User pepe = listOfUsers.get(0);
-      List<ResponsePostDTO> postsDto = new ArrayList<>();
+        List<ResponsePostDTO> postsDto = new ArrayList<>();
         for (Seller s : pepe.getFollowing()) {
             for (Post p : s.getPosts()) {
                 if (!p.getDate().isBefore(LocalDate.now().minusWeeks(2))) {
@@ -178,7 +162,6 @@ public class FactoryUsers { // No es la base de dato
                 }
             }
         }
-
         return new LastPostsDTO(pepe.getId(), postsDto);
     }
   

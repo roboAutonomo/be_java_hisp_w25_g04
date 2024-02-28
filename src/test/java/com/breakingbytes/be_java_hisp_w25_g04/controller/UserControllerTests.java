@@ -4,16 +4,10 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowedDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.UserFollowersDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
+import com.breakingbytes.be_java_hisp_w25_g04.service.ISellerService;
 import com.breakingbytes.be_java_hisp_w25_g04.service.UserServiceImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
 import org.junit.jupiter.api.Assertions;
-import com.breakingbytes.be_java_hisp_w25_g04.service.ISellerService;
-import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
-import com.breakingbytes.be_java_hisp_w25_g04.service.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,22 +16,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NamingConventions;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
-
-import static org.mockito.Mockito.when;
-
-
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -53,12 +35,12 @@ public class UserControllerTests {
     UserController userController;
 
     @Test
+    @DisplayName("T-0003 - Correcto funcionamiento de getUsersFollowersOf()")
     void getUsersFollowersOfTestOk() {
         // Arrange
         Integer idParam = 4;
         String orderParam = "";
         User user = FactoryUsers.getInstance().getSellerByName("Robert");
-
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setFieldMatchingEnabled(true)
@@ -68,7 +50,6 @@ public class UserControllerTests {
         UserFollowersDTO u = new UserFollowersDTO(user.getId(), user.getName(),followed);
 
         ResponseEntity expected = ResponseEntity.ok().body(u);
-
         // Act
         when(userService.getUsersFollowersOf(idParam, orderParam)).thenReturn(u);
         // Assert
@@ -76,12 +57,12 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("T-0003 - Correcto funcionamiento de getUsersFollowed()")
     void getUsersFollowedTestOk(){
         // Arrange
         Integer idParam = 1;
         String orderParam = "";
         User user = FactoryUsers.getInstance().getUserByName("Pepe");
-
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setFieldMatchingEnabled(true)
@@ -89,9 +70,7 @@ public class UserControllerTests {
                 .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
         List<UserDTO> followed = user.getFollowing().stream().map(u -> mapper.map(u, UserDTO.class)).toList();
         UserFollowedDTO u = new UserFollowedDTO(user.getId(), user.getName(),followed);
-
         ResponseEntity expected = ResponseEntity.ok().body(u);
-
         // Act
         when(userService.getUsersFollowed(idParam, orderParam)).thenReturn(u);
         // Assert
@@ -111,6 +90,7 @@ public class UserControllerTests {
         //Assert
         verify(sellerService, atLeastOnce()).quitFollower(userToUnfollowID, userID);
         verify(userService, atLeastOnce()).unfollowUser(userID, userToUnfollowID);
+        // TODO: Corregir y agregar response entity assert.equals
     }
   
     @Test
@@ -119,14 +99,11 @@ public class UserControllerTests {
         // arrange
         Integer userId = 1;
         Integer userIdToFollow = 2;
-
         // act
         ResponseEntity<?> response = userController.followUser(userId, userIdToFollow);
-
         // assert
         verify(userService, atLeastOnce()).follow(userId, userIdToFollow);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-
-
+        // TODO: Es necesario devolver el response entity si solo se devuelve un status code??
     }
 }

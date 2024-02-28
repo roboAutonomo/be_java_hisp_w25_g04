@@ -2,39 +2,16 @@ package com.breakingbytes.be_java_hisp_w25_g04.service;
 
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
-
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-
-
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
+import com.breakingbytes.be_java_hisp_w25_g04.entity.Product;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.BadRequestException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
+import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-
-import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
-
-import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
 import org.junit.jupiter.api.Assertions;
-import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
-import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
-import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
-import com.breakingbytes.be_java_hisp_w25_g04.utils.FactoryUsers;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,46 +20,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
-
-import java.util.Optional;
-
-
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-
-
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SellerServiceTests {
   
-  @Mock
+    @Mock
     private SellerRepositoryImpl sellerRepository;
     @Mock
     UserRepositoryImpl userRepository;
@@ -93,7 +41,11 @@ public class SellerServiceTests {
     @DisplayName("T-0008 Posts fecha valida Ordenados Por Fecha Ascendente")
     void postValidDatesOrderedByAscDateTestOk() {
         //ARRANGE
-        User user = FactoryUsers.getInstance().getListOfUsers().get(0); //Primer usuario con Id 1
+        String orderParam = "date_desc";
+        User user = new User();
+        user.setId(1);
+        user.setFollowing(List.of(new Seller()));
+        user.getFollowing().get(0).setId(3);
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
 
         //Se agrega Post con fecha vieja mayor a 2 semanas
@@ -107,12 +59,10 @@ public class SellerServiceTests {
                 FactoryUsers.getInstance().convertPostToResponsePostDTO(
                         FactoryUsers.getInstance().getPostsWithoutOrder()));
         //ACT
-
         LastPostsDTO result = sellerService.getPostOfVendorsFollowedByUser(user.getId(),"");
-  //ASSERT
-
+        //ASSERT
         assertEquals(expected, result);
-    }      
+    }
     
     @Test
     @DisplayName("T-0006 Posts Ordenados Por Fecha Ascendente")
@@ -147,15 +97,12 @@ public class SellerServiceTests {
         user.setFollowing(List.of(new Seller()));
         user.getFollowing().get(0).setId(3);
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
-
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         LastPostsDTO expected = new LastPostsDTO(user.getId(),
-                FactoryUsers.getInstance().convertPostToResponsePostDTO(FactoryUsers.getInstance().getPostsDateDesc()));
+        FactoryUsers.getInstance().convertPostToResponsePostDTO(FactoryUsers.getInstance().getPostsDateDesc()));
         //ACT
-
         LastPostsDTO result = sellerService.getPostOfVendorsFollowedByUser(user.getId(), orderParam);
-  //ASSERT
-
+        //ASSERT
         assertEquals(expected, result);
     }      
 
@@ -166,22 +113,18 @@ public class SellerServiceTests {
         Integer idUser = 3;
         Seller seller = FactoryUsers.getSellerThree();
         Integer expectedCount= 3;
-
         when(sellerRepository.findById(idUser)).thenReturn(Optional.of(seller));
         Integer countFollowersResult = sellerService.getCountFollowersOfSeller(idUser).getFollowers_count();
-
         Assertions.assertEquals(expectedCount, countFollowersResult);
     }
 
     @Test
     @DisplayName("T-0005: Excepcion ordenamiento incorrecto service")
-    public void orderByDateAscExceptionTest() {
+    public void orderByDateExceptionTest() {
         Integer userId = 1;
         String  order = "date_";
         User userExpected = FactoryUsers.getInstance().getUserById(userId);
-
         when(userRepository.findById(userId)).thenReturn(Optional.of(userExpected));
-
         assertThrows(BadRequestException.class, () -> sellerService.getPostOfVendorsFollowedByUser(userId, order));
     }
 
