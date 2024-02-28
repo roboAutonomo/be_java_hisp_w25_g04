@@ -1,7 +1,5 @@
 package com.breakingbytes.be_java_hisp_w25_g04.controller;
 
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.dto.request.RequestPostDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.service.ISellerService;
 import com.breakingbytes.be_java_hisp_w25_g04.service.IUserService;
 import org.springframework.http.ResponseEntity;

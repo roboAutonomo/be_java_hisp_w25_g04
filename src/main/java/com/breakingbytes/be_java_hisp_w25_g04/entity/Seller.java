@@ -15,6 +15,12 @@ public class Seller extends User{
     List<User> followers;
     List<Post> posts;
 
+    public Seller(Integer id, String name, List<Seller> following, List<User> followers, List<Post> posts) {
+        super(id, name, following);
+        this.followers = followers;
+        this.posts = posts;
+    }
+
     public Seller() {
         super();
         this.followers = new ArrayList<>();
