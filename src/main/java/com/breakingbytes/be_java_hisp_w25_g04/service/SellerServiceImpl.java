@@ -17,6 +17,9 @@ import com.breakingbytes.be_java_hisp_w25_g04.repository.ISellerRepository;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.IUserRepository;
 import com.breakingbytes.be_java_hisp_w25_g04.utils.Mapper;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NamingConventions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,6 +38,12 @@ public class SellerServiceImpl implements ISellerService{
         this.postRepository = postRepository;
         this.productRepository = productRepository;
         this.userRepository = iUserRepository;
+
+        //Configuracion del mapper
+        this.mapper.getConfiguration()
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
     }
 
     @Override
