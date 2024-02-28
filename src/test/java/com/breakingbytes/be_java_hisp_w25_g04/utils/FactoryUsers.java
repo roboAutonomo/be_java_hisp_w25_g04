@@ -141,6 +141,7 @@ public class FactoryUsers { // No es la base de dato
         return this.getPostsWithoutOrder().stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
     }
 
+
     public List<Post> getPostsWithoutOrder(){
         Post p1 = new Post(3, LocalDate.now().minusWeeks(1), new Product(), 100, 1500.0);
         p1.setPostId(2);
@@ -222,4 +223,5 @@ public class FactoryUsers { // No es la base de dato
     }
 
         
+
 }
