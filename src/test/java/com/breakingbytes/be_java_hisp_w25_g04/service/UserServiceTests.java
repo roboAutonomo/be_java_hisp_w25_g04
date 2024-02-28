@@ -4,6 +4,7 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Post;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.Seller;
 import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
+import com.breakingbytes.be_java_hisp_w25_g04.exception.BadRequestException;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.SellerRepositoryImpl;
 import com.breakingbytes.be_java_hisp_w25_g04.repository.UserRepositoryImpl;
@@ -94,6 +95,31 @@ public class UserServiceTests {
         verify(userRepository, atLeastOnce()).findById(userId);
         verify(sellerRepository, atLeastOnce()).findById(userIdToFollow);
         assertEquals("Ususario no encontrado", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("T-0001: Notifica que ya sigue a ese vendedor mediante una excepción.")
+    public void followTestSellerBAdRequest() {
+        // arrange
+        Integer userId = 1;
+        User user = FactoryUsers.getInstance().getUserById(userId);
+        Optional<User> expectedUser = Optional.of(user);
+
+        Integer userIdToFollow = 3;
+        Seller seller = (Seller) FactoryUsers.getInstance().getSellerById(userIdToFollow);
+        Optional<Seller> expectedSeller = Optional.of(seller);
+
+        when(userRepository.findById(userId)).thenReturn(expectedUser);
+        when(sellerRepository.findById(userIdToFollow)).thenReturn(expectedSeller);
+
+
+        // act
+        Exception exception = assertThrows(BadRequestException.class, () ->
+                userService.follow(userId, userIdToFollow));
+
+        // assert
+        verify(userRepository, atLeastOnce()).findById(userId);
+        verify(sellerRepository, atLeastOnce()).findById(userIdToFollow);
     }
 
 }
