@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class FactoryUsers {
+public class FactoryUsers { // No es la base de dato
 
     private static FactoryUsers factoryUsers;
     private List<User> listOfUsers;
@@ -85,8 +85,19 @@ public class FactoryUsers {
         return user;
     }
 
+    public User getUserById(Integer id) {
+        Optional<User> user = this.listOfUsers.stream().filter(u -> u.getId().equals(id)).findFirst();
+        if(user.isEmpty()) throw new NotFoundException("No se encontró el usuario");
+        return user.get();
+    }
     public List<Seller> getListOfSellers() {
         return listOfSellers;
+    }
+
+    public User getSellerById(Integer id) {
+        Optional<Seller> seller = this.listOfSellers.stream().filter(u -> u.getId().equals(id)).findFirst();
+        if(seller.isEmpty()) throw new NotFoundException("No se encontró al vendedor");
+        return seller.get();
     }
 
     public List<Post> getListOfPost() {
@@ -101,6 +112,4 @@ public class FactoryUsers {
         if(factoryUsers == null) factoryUsers = new FactoryUsers();
         return factoryUsers;
     }
-
-
 }
