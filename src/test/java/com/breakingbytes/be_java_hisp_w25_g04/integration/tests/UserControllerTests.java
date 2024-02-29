@@ -37,7 +37,7 @@ public class UserControllerTests {
                 userIdToUnfollow = 3;
         String expectedResponse = convertirAJson(new ResponseDTO("El usuario Pepe ha dejado de seguir a: Juan"));
 
-        MvcResult mvcResult = mockMvc.perform(post("/{user_id}/unfollow/{user_id_to_unfollow}", userId, userIdToUnfollow))
+        MvcResult mvcResult = mockMvc.perform(post("/users/{user_id}/unfollow/{user_id_to_unfollow}", userId, userIdToUnfollow))
                 .andDo(print())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(status().isOk())
