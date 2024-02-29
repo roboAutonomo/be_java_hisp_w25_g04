@@ -18,7 +18,9 @@ public class DbMock {
     private DbMock(){
         this.listOfUsers = new ArrayList<>();
         User pepe = new User(); // ID: 1
+        pepe.setId(1);
         User carlos = new User(); // ID: 2
+        carlos.setId(2);
         pepe.setName("Pepe");
         this.listOfUsers.add(pepe);
         carlos.setName("Carlos");
@@ -27,10 +29,12 @@ public class DbMock {
         this.listOfSellers = new ArrayList<>();
         Seller juan = new Seller(); // ID: 3
         juan.setName("Juan");
+        juan.setId(3);
         pepe.addFollowing(juan);
         juan.addFollower(pepe);
         this.listOfSellers.add(juan);
         Seller robert = new Seller(); // ID: 4
+        robert.setId(4);
         robert.setName("Robert");
         robert.addFollower(carlos);
         carlos.addFollowing(robert)
@@ -44,11 +48,11 @@ public class DbMock {
         Product p5 = new Product(5, "Backpack", "Accessories", "JanSport", "Gray", "Multiple compartments");
         this.listOfProduct = new ArrayList<>(List.of(p1, p2, p3, p4, p5));
 
-        Post post1 = new Post(3, LocalDate.of(2024,2,20), p2, 100, 1500.0);
-        Post post2 = new Post(3, LocalDate.of(2023, 2,20), p3, 100, 1000.0);
-        Post post3 = new Post(4, LocalDate.of(2021,10,19), p1, 200, 240.0);
-        Post post4 = new Post(3, LocalDate.of(2019,2,21), p4, 100, 20.0);
-        Post post5 = new Post(3, LocalDate.of(2019,2,26), p5, 300, 30.0);
+        Post post1 = new Post(3, LocalDate.now(), p2, 100, 1500.0);
+        Post post2 = new Post(3, LocalDate.now().minusDays(1), p3, 100, 1000.0);
+        Post post3 = new Post(4, LocalDate.now().minusWeeks(1), p1, 200, 240.0);
+        Post post4 = new Post(3, LocalDate.now().minusWeeks(5), p4, 100, 20.0);
+        Post post5 = new Post(3, LocalDate.now().minusDays(10), p5, 300, 30.0);
         this.listOfPost = new ArrayList<>(List.of(post1, post2, post3, post4, post5));
 
         juan.getPosts().add(post1);
