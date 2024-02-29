@@ -4,7 +4,6 @@ import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponsePostDTO;
 
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.response.LastPostsDTO;
-import com.breakingbytes.be_java_hisp_w25_g04.dto.response.ResponsePostDTO;
 
 import com.breakingbytes.be_java_hisp_w25_g04.dto.request.UserDTO;
 
@@ -15,14 +14,12 @@ import com.breakingbytes.be_java_hisp_w25_g04.entity.User;
 import com.breakingbytes.be_java_hisp_w25_g04.exception.NotFoundException;
 
 
-import com.breakingbytes.be_java_hisp_w25_g04.repository.DbMock;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class FactoryUsers { // No es la base de dato
