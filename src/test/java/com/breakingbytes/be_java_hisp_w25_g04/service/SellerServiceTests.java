@@ -47,18 +47,15 @@ public class SellerServiceTests {
         user.setFollowing(List.of(new Seller()));
         user.getFollowing().get(0).setId(3);
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
-
         //Se agrega Post con fecha vieja mayor a 2 semanas
         Post p1 = new Post(3, LocalDate.now().minusWeeks(6), new Product(), 100, 2000.0);
         p1.setPostId(5);
         user.getFollowing().get(0).getPosts().add(p1);
-
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-
         LastPostsDTO expected = new LastPostsDTO(user.getId(),
                 FactoryUsers.getInstance().convertPostToResponsePostDTO(
                         FactoryUsers.getInstance().getPostsWithoutOrder()));
         //ACT
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         LastPostsDTO result = sellerService.getPostOfVendorsFollowedByUser(user.getId(),"");
         //ASSERT
         assertEquals(expected, result);
@@ -74,15 +71,12 @@ public class SellerServiceTests {
         user.setFollowing(List.of(new Seller()));
         user.getFollowing().get(0).setId(3);
         user.getFollowing().get(0).setPosts(FactoryUsers.getInstance().getPostsWithoutOrder());
-
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         LastPostsDTO expected = new LastPostsDTO(user.getId(),
                 FactoryUsers.getInstance().convertPostToResponsePostDTO(FactoryUsers.getInstance().getPostsDateAsc()));
         //ACT
-
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         LastPostsDTO result = sellerService.getPostOfVendorsFollowedByUser(user.getId(), orderParam);
         //ASSERT
-
         assertEquals(expected, result);
     }
 
