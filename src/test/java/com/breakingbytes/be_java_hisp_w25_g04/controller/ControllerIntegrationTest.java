@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,10 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class UserControllerIntegrationTest {
+public class ControllerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
+
     @Test
+    @DisplayName("Test integracion - seguir a usuario")
     public void testFollowUser() throws Exception {
         Integer idUser = 1;
         Integer idUserToFollow = 4;
@@ -34,6 +37,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test integracion - agregar un nuevo post")
     public void testAddPost() throws Exception {
         RequestPostDTO requestPostDTO = new RequestPostDTO(4,
                 LocalDate.of(2024,02,19),
